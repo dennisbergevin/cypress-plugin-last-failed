@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-A companion Cypress plugin for `cy-grep` that re-runs the last failed test(s).
+A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed test(s).
 </p>
 
 ![Cypress-last-failed-toggle](./assets/cypress-demo.gif)
