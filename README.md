@@ -24,9 +24,6 @@ This plugin harnesses the powers of `cy-grep` from `@bahmutov/cy-grep` plugin an
   - [Filter failed tests within `cypress open`](#-filter-failed-tests-within-cypress-open)
   - [Usage with `cypress run`](#-usage-with-cypress-run)
     - [Setting up a `npm` script](#-setting-up-a-npm-script)
-- [Example Environment Variable Setups](#-example-environment-variable-setups)
-  - [Setup using `cypress.env.json`](#setup-using-cypressenvjson)
-  - [Setup using `--env`](#setup-using---env)
 - [Contributions](#contributions)
 
 ---
@@ -87,16 +84,38 @@ Example:
 }
 ```
 
+- Once the plugin is enabled and to allow for the Cypress Module API node script to know which failed tests to run, failed test titles from each run will be written to a `test-results` directory.
+
+  - By default, the `test-results` will be created in the root project directory.
+
+  - To customize where the `test-results` directory should be stored, add the `failedTestDirectory` environment variable to `cypress.config` with the desired path from the config file:
+
+```js
+// Example using a fixtures folder path relative to the cypress.config
+
+module.exports = defineConfig({
+  env: {
+    failedTestDirectory: './cypress/fixtures',
+  },
+  e2e: {
+    setupNodeEvents(on, config) {},
+  },
+});
+```
+
 - **Optional**: If you do not want to commit the file storing last failed tests to your remote repository, include a rule within your project's `.gitignore` file:
 
 ```
+
 # Last failed storage directory
-**/cypress/fixtures/last-failed
+
+**/last-failed
+
 ```
 
 ### For `cypress open`
 
-- **Optional**: Set two common environment variables tied to the `@bahmutov/cy-grep` package within a config to enhance the experience utilizing the grep logic within the Cypress Test Runner UI using `cypress open`:
+- **Optional**: Set two common environment variables tied to the `@bahmutov/cy-grep` package to enhance the experience utilizing the grep logic within the Cypress Test Runner UI using `cypress open`:
 
 ```json
 {
@@ -110,9 +129,6 @@ Example:
 > [!NOTE]
 > More information on `grepOmitFiltered` and `grepFilterSpecs` can be read within the [README for `@bahmutov/cy-grep`](https://github.com/bahmutov/cy-grep?tab=readme-ov-file#pre-filter-specs-grepfilterspecs)
 
-> [!TIP]
-> For suggestions on how to set these environment variable(s) for use in your project, see [Example Environment Variable Setups](#-example-environment-variable-setups).
-
 ---
 
 ## 🧰 Use
@@ -125,22 +141,11 @@ Within the Cypress Test Runner UI using `cypress open`, this plugin provides a f
 
 Toggling the filter will run any previously failed tests on the particular spec file.
 
+![Failed test toggle](./assets/failedTestToggle.png)
+
 ### 👟 Usage with `cypress run`
 
-To collect the last run's failed tests, enable this functionality by setting the following environment variable:
-
-```json
-{
-  "env": {
-    "collectFailingTests": true
-  }
-}
-```
-
-You can run the following command from your project's root directory to re-run the latest run's failed test(s) from the terminal:
-
-> [!IMPORTANT]
-> Ensure you execute this command in the root folder of your Cypress project
+Run the following command to re-run the latest run's failed test(s) from the terminal:
 
 ```cli
 npx cypress-run-last-failed run
@@ -160,38 +165,6 @@ For convenience, you may desire to house the `npx` command within an npm script 
   "scripts": {
     "run-last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
   }
-```
-
-## 📕 Example Environment Variable Setups
-
-The following options are suggestions of how to set the environment variable for using the filtering capability within `cypress open`.
-
-A more comprehensive [guide on environment variable setting](https://docs.cypress.io/guides/guides/environment-variables#Setting) can be found within official Cypress documentation.
-
-### Setup using `cypress.env.json`
-
-Add environment variable(s) to a created `cypress.env.json` file.
-
-Example:
-
-```js
-{
-  "collectFailingTests": true,
-  "grepOmitFiltered": true,
-  "grepFilterSpecs": true
-}
-```
-
-This is a useful method for handling local use of this plugin, particularly if you add `cypress.env.json` to your `.gitignore` file. This way, enabling the plugin functionality via environment variable can be different for each developer machine rather than committed to the remote repository.
-
-From official Cypress docs, more information on the [`cypress.env.json` method](https://docs.cypress.io/guides/guides/environment-variables#Option-2-cypressenvjson).
-
-### Setup using `--env`
-
-Alternatively, append the environment variable to the end of your `cypress open` cli command:
-
-```shell
-npx cypress open --env collectFailingTests=true,grepOmitFiltered=true,grepFilterSpecs=true
 ```
 
 ## Contributions
