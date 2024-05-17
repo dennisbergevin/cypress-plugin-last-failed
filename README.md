@@ -137,7 +137,7 @@ This plugin has functionality for both `cypress open` and `cypress run`.
 
 ### ⌛ Filter failed tests within `cypress open`
 
-Within the Cypress Test Runner UI using `cypress open`, this plugin provides a filter within each spec file positioned on the reporter.
+Within the Cypress Test Runner UI using `cypress open`, this plugin provides a filter within each spec file.
 
 Toggling the filter will run any previously failed tests on the particular spec file.
 
