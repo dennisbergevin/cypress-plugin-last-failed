@@ -109,7 +109,7 @@ module.exports = defineConfig({
 
 # Last failed storage directory
 
-**/last-failed
+**/test-results
 
 ```
 
