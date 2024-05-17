@@ -6,7 +6,7 @@
 A companion Cypress plugin for `cy-grep` that re-runs the last failed test(s).
 </p>
 
-![Cypress-last-failed-toggle](./assets/cypress-plugin-last-failed.gif)
+![Cypress-last-failed-toggle](./assets/cypress-plugin-demo.gif)
 
 ![Cypress run example image](./assets/cypress-run-example.png)
 
@@ -83,7 +83,9 @@ For suggestions on how to set these environment variable(s) for use in your proj
 
 ## Usage with `cypress run`
 
-Once you have run tests using `cypress run` and the run concluded with at least 1 failed test, you can run the following command to re-run the failed test(s) from the terminal:
+Once you have run tests using `cypress run` and the run concluded with at least 1 failed test:
+
+You can run the following command from your project's root directory to re-run the failed test(s) from the terminal:
 
 ```cli
 npx cypress-run-last-failed run
