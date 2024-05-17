@@ -1,0 +1,13 @@
+# dependencies
+**/node_modules
+
+# Cypress artifacts
+**/cypress/screenshots
+**/cypress/videos
+**/cypress/downloads
+
+# Last failed storage directory
+**/cypress/fixtures/last-failed
+
+# Cypress environment variables
+**/cypress.env.json
