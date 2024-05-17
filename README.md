@@ -16,6 +16,21 @@ Re-run the last failed tests in both `cypress run` and `cypress open` formats fo
 
 This plugin harnesses the powers of `cy-grep` from `@bahmutov/cy-grep` plugin and the Cypress Module API.
 
+#### Table of Contents
+
+- [Installation](#-installation)
+- [Setup](#-setup)
+- [Use](#use)
+  - [Filter failed tests within `cypress open`](#filter-failed-tests-within-cypress-open)
+  - [Usage with `cypress run`](#usage-with-cypress-run)
+    - [Setting up a `npm` script](#-npm-script-option)
+- [Example Environment Variable Setups](#-example-environment-variable-setups)
+  - [Setup using `cypress.env.json`](#setup-using-cypressenvjson)
+  - [Setup using `--env`](#setup-using---env)
+- [Contributions](#contributions)
+
+---
+
 ## 📦 Installation
 
 1. Install the following packages:
@@ -49,17 +64,39 @@ module.exports = defineConfig({
 
       require('@bahmutov/cy-grep/src/plugin')(config);
       return config;
-      // implement node event listeners here
     },
   },
 });
 ```
 
+---
+
 ## 🦺 Setup
 
-1. To enable the plugin to collect and record the most recent run's failing tests, set the environment variable `collectFailingTests` to `true`.
+### For `cypress run`
 
-2. **Suggestion**: Set two common environment variables tied to the `@bahmutov/cy-grep` package within a config to enhance the experience utilizing the grep logic within the Cypress Test Runner UI using `cypress open`:
+- To enable the plugin to collect and record the most recent run's failing tests, set the environment variable `collectFailingTests` to `true`.
+
+Example:
+
+```json
+{
+  "env": {
+    "collectFailingTests": true
+  }
+}
+```
+
+- **Optional**: If you do not want to commit the file storing last failed tests to your remote repository, include a rule within your project's `.gitignore` file:
+
+```
+# Last failed storage directory
+**/cypress/fixtures/last-failed
+```
+
+### For `cypress open`
+
+- **Optional**: Set two common environment variables tied to the `@bahmutov/cy-grep` package within a config to enhance the experience utilizing the grep logic within the Cypress Test Runner UI using `cypress open`:
 
 ```json
 {
@@ -70,22 +107,40 @@ module.exports = defineConfig({
 }
 ```
 
-More information on `grepOmitFiltered` and `grepFilterSpecs` can be read within the [README for `@bahmutov/cy-grep`](https://github.com/bahmutov/cy-grep?tab=readme-ov-file#pre-filter-specs-grepfilterspecs)
+> [!NOTE]
+> More information on `grepOmitFiltered` and `grepFilterSpecs` can be read within the [README for `@bahmutov/cy-grep`](https://github.com/bahmutov/cy-grep?tab=readme-ov-file#pre-filter-specs-grepfilterspecs)
 
-For suggestions on how to set these environment variable(s) for use in your project, see [Example Environment Variable Setups](#-example-environment-variable-setups).
+> [!TIP]
+> For suggestions on how to set these environment variable(s) for use in your project, see [Example Environment Variable Setups](#-example-environment-variable-setups).
 
-3. If you do not want to commit the file storing last failed tests to your remote repository, include a rule within your project's `.gitignore` file:
+---
 
+## 🧰 Use
+
+This plugin has functionality for both `cypress open` and `cypress run`.
+
+### ⌛ Filter failed tests within `cypress open`
+
+Within the Cypress Test Runner UI using `cypress open`, this plugin provides a filter within each spec file positioned on the reporter.
+
+Toggling the filter will run any previously failed tests on the particular spec file.
+
+### 👟 Usage with `cypress run`
+
+To collect the last run's failed tests, enable this functionality by setting the following environment variable:
+
+```json
+{
+  "env": {
+    "collectFailingTests": true
+  }
+}
 ```
-# Last failed storage directory
-**/cypress/fixtures/last-failed
-```
 
-## Usage with `cypress run`
+You can run the following command from your project's root directory to re-run the latest run's failed test(s) from the terminal:
 
-Once you have run tests using `cypress run` and the run concluded with at least 1 failed test:
-
-You can run the following command from your project's root directory to re-run the failed test(s) from the terminal:
+> [!IMPORTANT]
+> Ensure you execute this command in the root folder of your Cypress project
 
 ```cli
 npx cypress-run-last-failed run
@@ -97,13 +152,7 @@ You can also include more cli arguments as desired, as the `npx` command is poin
 npx cypress-run-last-failed run --e2e --browser chrome
 ```
 
-Example:
-
-```cli
-$ npx cypress-run-last-failed run --browser electron
-```
-
-## 📃 `npm` script option
+#### 📃 Setting up a `npm` script
 
 For convenience, you may desire to house the `npx` command within an npm script in your project's `package.json`, including any desired cli arguments:
 
@@ -113,15 +162,11 @@ For convenience, you may desire to house the `npx` command within an npm script 
   }
 ```
 
-## Filter failed tests within `cypress open`
-
-Within the Cypress Test Runner UI using `cypress open`, this plugin provides a filter within each spec file positioned on the reporter.
-
-Toggling the filter will run any previously failed tests on the particular spec file.
-
 ## 📕 Example Environment Variable Setups
 
-The following options are suggestions of how to set the environment variable. A more comprehensive [guide on environment variable setting](https://docs.cypress.io/guides/guides/environment-variables#Setting) can be found within official Cypress documentation.
+The following options are suggestions of how to set the environment variable for using the filtering capability within `cypress open`.
+
+A more comprehensive [guide on environment variable setting](https://docs.cypress.io/guides/guides/environment-variables#Setting) can be found within official Cypress documentation.
 
 ### Setup using `cypress.env.json`
 
