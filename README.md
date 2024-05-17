@@ -6,7 +6,7 @@
 A companion Cypress plugin for `cy-grep` that re-runs the last failed test(s).
 </p>
 
-![Cypress-last-failed-toggle](./assets/cypress-last-failed-toggle.gif)
+![Cypress-last-failed-toggle](./assets/cypress-plugin-last-failed.gif)
 
 ## Overview
 
