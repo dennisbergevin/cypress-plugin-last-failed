@@ -8,6 +8,8 @@ A companion Cypress plugin for `cy-grep` that re-runs the last failed test(s).
 
 ![Cypress-last-failed-toggle](./assets/cypress-plugin-last-failed.gif)
 
+![Cypress run example image](./assets/cypress-run-example.png)
+
 ## Overview
 
 Re-run the last failed tests in both `cypress run` and `cypress open` formats for improved development and debugging experience.
@@ -91,6 +93,12 @@ You can also include more cli arguments as desired, as the `npx` command is poin
 
 ```cli
 npx cypress-run-last-failed run --e2e --browser chrome
+```
+
+Example:
+
+```cli
+$ npx cypress-run-last-failed run --browser electron
 ```
 
 ## 📃 `npm` script option
