@@ -170,7 +170,7 @@ For convenience, you may desire to house the `npx` command within an npm script 
 
 ## Typescript support
 
-For more information on Typescript support involved with `@bahmutov/cy-grep` package, refer to it's [README](https://github.com/bahmutov/cy-grep?tab=readme-ov-file#typescript-support)
+For more information on Typescript support involved with `@bahmutov/cy-grep` package, refer to it's [README](https://github.com/bahmutov/cy-grep?tab=readme-ov-file#typescript-support).
 
 ## Contributions
 
