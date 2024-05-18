@@ -24,6 +24,7 @@ This plugin harnesses the powers of `cy-grep` from `@bahmutov/cy-grep` plugin an
   - [Filter failed tests within `cypress open`](#-filter-failed-tests-within-cypress-open)
   - [Usage with `cypress run`](#-usage-with-cypress-run)
     - [Setting up a `npm` script](#-setting-up-a-npm-script)
+- [Typescript support](#typescript-support)
 - [Contributions](#contributions)
 
 ---
@@ -166,6 +167,10 @@ For convenience, you may desire to house the `npx` command within an npm script 
     "run-last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
   }
 ```
+
+## Typescript support
+
+For more information on Typescript support involved with `@bahmutov/cy-grep` package, refer to it's [README](https://github.com/bahmutov/cy-grep?tab=readme-ov-file#typescript-support)
 
 ## Contributions
 
