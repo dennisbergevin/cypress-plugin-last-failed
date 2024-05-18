@@ -2,14 +2,12 @@
 
 const cypress = require('cypress');
 const fs = require('fs');
-const cypressConfig = require('./cypress.config');
-const { dirname } = require('path');
+const appDir = process.env.INIT_CWD;
+const cypressConfig = require(`${appDir}/cypress.config`);
 
 async function runLastFailed() {
-  const appDir = dirname(require.main.filename);
-
   // Use the cypress environment variable failedTestDirectory for where to store failed tests
-  // If not set then use the root project folder
+  // If not set then use the directory of the project's cypress.config where the test-results defaults to
   const failedTestFilePath =
     cypressConfig.env?.failedTestDirectory === undefined
       ? `${appDir}/test-results/last-run.txt`

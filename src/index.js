@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { dirname } = require('path');
 
 /**
  * Collects failed tests from the most recent Cypress test run
@@ -36,14 +35,11 @@ const collectFailingTests = (on, config) => {
       // Prepare a string that can be read from cy-grep
       const greppedTestFormat = stringedTests.replaceAll(',', '; ');
 
-      // Root project folder
-      const appDir = dirname(require.main.filename);
-
       // Use the cypress.config environment variable for failedTestDirectory
       // If not set then use the root project folder
       const failedTestFileDirectory =
         config.env.failedTestDirectory === undefined
-          ? `${appDir}/test-results/`
+          ? `${path.dirname(config.configFile)}/test-results/`
           : `${config.env.failedTestDirectory}/test-results/`;
 
       await fs.promises.mkdir(`${failedTestFileDirectory}`, {

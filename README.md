@@ -87,9 +87,9 @@ Example:
 
 - Once the plugin is enabled and to allow for the Cypress Module API node script to know which failed tests to run, failed test titles from each run will be written to a `test-results` directory.
 
-  - By default, the `test-results` will be created in the root project directory.
+  - By default, the `test-results` will be created in the directory of the `cypress.config`.
 
-  - To customize where the `test-results` directory should be stored, add the `failedTestDirectory` environment variable to `cypress.config` with the desired path from the config file:
+  - To customize where the `test-results` directory should be stored, add the `failedTestDirectory` environment variable to `cypress.config` with the desired relative path from the config file:
 
 ```js
 // Example using a fixtures folder path relative to the cypress.config
@@ -108,7 +108,7 @@ module.exports = defineConfig({
 
 ```
 
-# Last failed storage directory
+# Example
 
 **/test-results
 
@@ -146,7 +146,7 @@ Toggling the filter will run any previously failed tests on the particular spec 
 
 ### 👟 Usage with `cypress run`
 
-Run the following command to re-run the latest run's failed test(s) from the terminal:
+From the **directory of the project's `cypress.config`**, you can use the following command to re-run the latest run's failed test(s) from the terminal:
 
 ```cli
 npx cypress-run-last-failed run
