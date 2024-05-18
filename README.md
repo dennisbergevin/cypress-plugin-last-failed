@@ -142,7 +142,7 @@ Within the Cypress Test Runner UI using `cypress open`, this plugin provides a f
 
 Toggling the filter will run any previously failed tests on the particular spec file.
 
-![Failed test toggle](./assets/failedTestToggle.png)
+![Failed test toggle](./assets/failed-test-toggle.png)
 
 ### 👟 Usage with `cypress run`
 
