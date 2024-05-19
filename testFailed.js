@@ -3,6 +3,7 @@
 const assert = require('assert');
 const cypress = require('cypress');
 const fs = require('fs');
+const path = require('path');
 const appDir = process.env.INIT_CWD ? process.env.INIT_CWD : path.resolve('.');
 const cypressConfig = require(`${appDir}/cypress.config`);
 
