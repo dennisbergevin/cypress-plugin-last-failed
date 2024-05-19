@@ -21,7 +21,9 @@ jobs:
           working-directory: ./
       - name: Show saved file 🖨
         if: always()
-        run: ls
+        run: |
+        cd cypress/fixtures
+        ls
       - name: Custom node script 🧪
         if: always()
         uses: cypress-io/github-action@v6
