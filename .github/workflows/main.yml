@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
   cypress-run:
     runs-on: ubuntu-22.04
     steps:
@@ -19,6 +18,7 @@ jobs:
         uses: cypress-io/github-action@v6
 
   node-script:
+    needs: cypress-run
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 🛎
