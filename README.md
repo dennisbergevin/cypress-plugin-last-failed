@@ -8,7 +8,7 @@ A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed
 
 ![Cypress-last-failed-toggle](./assets/cypress-demo.gif)
 
-![Cypress run example image](./assets/cypress-run-example.png)
+![Cypress run example image](./assets/cypress-last-failed.png)
 
 ## Overview
 
@@ -85,7 +85,7 @@ Example:
 }
 ```
 
-- Once the plugin is enabled and to allow for the Cypress Module API node script to know which failed tests to run, failed test titles from each run will be written to a `test-results` directory.
+- Failed test titles from each run will be written to a `test-results` directory to be read from the Module API node script:
 
   - By default, the `test-results` will be created in the directory of the `cypress.config`.
 
@@ -116,7 +116,7 @@ module.exports = defineConfig({
 
 ### For `cypress open`
 
-- **Optional**: Set two common environment variables tied to the `@bahmutov/cy-grep` package to enhance the experience utilizing the grep logic within the Cypress Test Runner UI using `cypress open`:
+- **Recommended**: Set two common environment variables tied to the `@bahmutov/cy-grep` package to enhance the experience utilizing the grep logic within the Cypress Test Runner UI using `cypress open`:
 
 ```json
 {

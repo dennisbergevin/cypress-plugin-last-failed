@@ -7,7 +7,7 @@
     "run-last-failed": "node runFailed.js run --e2e --browser electron"
   },
   "bin": {
-    "cypress-run-last-failed": "runFailed.js"
+    "cypress-last-failed": "runFailed.js"
   },
   "keywords": [
     "cypress",

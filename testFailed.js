@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
+const assert = require('assert');
 const cypress = require('cypress');
 const fs = require('fs');
-const path = require('path');
 const appDir = process.env.INIT_CWD ? process.env.INIT_CWD : path.resolve('.');
 const cypressConfig = require(`${appDir}/cypress.config`);
 
-async function runLastFailed() {
+async function testRunFailed() {
   // Use the cypress environment variable failedTestDirectory for where to store failed tests
   // If not set then use the directory of the project's cypress.config where the test-results defaults to
   const failedTestFilePath =
@@ -28,10 +28,28 @@ async function runLastFailed() {
     process.env.CYPRESS_grepFilterSpecs = true;
     process.env.CYPRESS_grepOmitFiltered = true;
 
-    await cypress.run(runOptions);
+    await cypress.run(runOptions).then((results) => {
+      const testTitles = results.runs[0].tests.map(
+        (test) => test.title[test.title.length - 1]
+      );
+      const failedTestCount = results.runs[0].stats.tests;
+
+      const tests = [
+        [failedTestCount, 2],
+        [testTitles, ['should run', 'needs to run']],
+      ];
+      for (const [value, otherValue] of tests) {
+        try {
+          assert.deepEqual(value, otherValue);
+          console.log(`Success: ${value} equals ${otherValue}`);
+        } catch (error) {
+          console.error(`Failure: ${value} does not equal ${otherValue}`);
+        }
+      }
+    });
   } else {
     console.log('No previous failed tests detected');
   }
 }
 
-runLastFailed();
+testRunFailed();
