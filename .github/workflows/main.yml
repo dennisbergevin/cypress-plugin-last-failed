@@ -16,6 +16,11 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
+      - name: Upload failed test file
+      - uses: actions/upload-artifact@v4
+        with:
+          name: failed-tests
+          path: test-results/last-runs.txt
 
   node-script:
     if: always()
@@ -24,7 +29,11 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v4
-
+      - name: Download failed test file
+      - uses: actions/download-artifact@v4
+          with:
+            name: failed-tests
+            path: test-results/last-runs.txt
       - name: Custom tests 🧪
         uses: cypress-io/github-action@v6
         with:
