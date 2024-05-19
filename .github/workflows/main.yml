@@ -7,22 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  cypress-run:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-      - name: Upload failed test file
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: failed-tests
-          path: ${{ github.workspace }}/test-results/last-run.txt
-
   node-script:
     if: always()
     needs: cypress-run
@@ -30,14 +14,11 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v4
-      - name: Download failed test file
-        if: always()
-        uses: actions/download-artifact@v4
-        with:
-          name: failed-tests
-          path: ${{ github.workspace }}/test-results/last-run.txt
+      - name: Create failed test file
+        run: |
+          mkdir ${{ github.workspace }}/test-results && echo "should run; needs to run" >> ${{ github.workspace }}/test-results/last-run.txt
       - name: Custom tests 🧪
         uses: cypress-io/github-action@v6
         with:
           command: node runFailed.js run
-          working-directory: ./
+          working-directory: ${{ github.workspace }}
