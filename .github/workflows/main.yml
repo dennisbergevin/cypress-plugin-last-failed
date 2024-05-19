@@ -1,4 +1,4 @@
-name: example-custom-command
+name: testing-cypress-last-failed-node-script
 on:
   push:
     branches:
@@ -7,15 +7,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  node-script:
+  cypress-run:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout 🛎
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Create failed test file
-        run: |
-          mkdir ${{ github.workspace }}/test-results && echo "should run; needs to run" >> ${{ github.workspace }}/test-results/last-run.txt
-      - name: Custom tests 🧪
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+      - name: Custom node script 🧪
+        if: always()
         uses: cypress-io/github-action@v6
         with:
           command: node testFailed.js run
