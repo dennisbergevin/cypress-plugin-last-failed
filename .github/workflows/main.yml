@@ -8,8 +8,6 @@ on:
 
 jobs:
   node-script:
-    if: always()
-    needs: cypress-run
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 🛎
