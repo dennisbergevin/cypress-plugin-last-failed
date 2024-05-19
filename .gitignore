@@ -6,9 +6,5 @@
 **/cypress/videos
 **/cypress/downloads
 
-# Last failed storage directory
-# Default root project folder directory for cypress.config fileServerFolder
-**/test-results
-
 # Cypress environment variables
 **/cypress.env.json
