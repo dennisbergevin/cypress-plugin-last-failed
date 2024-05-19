@@ -17,6 +17,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
       - name: Show saved file 🖨
+        if: always()
         run: cat ${{ github.workspace }}/test-results/last-run.txt
       - name: Custom node script 🧪
         if: always()
