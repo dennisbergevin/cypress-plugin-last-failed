@@ -16,6 +16,8 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
+      - name: Show saved file 🖨
+        run: cat ${{ github.workspace }}/test-results/last-run.txt
       - name: Custom node script 🧪
         if: always()
         uses: cypress-io/github-action@v6
