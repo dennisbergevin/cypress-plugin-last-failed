@@ -1,4 +1,4 @@
-name: testing-cypress-last-failed-node-script
+name: test-last-failed-node-script
 on:
   push:
     branches:
@@ -7,26 +7,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  cypress-run:
+  node-script:
     runs-on: ubuntu-22.04
-    permissions:
-      content: write
     steps:
-      - name: Checkout
+      - name: Checkout 🛎
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          command: npx cypress run
-          working-directory: ./
-      - name: Show saved file 🖨
-        if: always()
-        run: cd cypress/fixtures && ls
-      - name: Custom node script 🧪
-        if: always()
+      - name: Create failed test file
+        run: |
+          mkdir ${{ github.workspace }}/test-results && echo "should run; needs to run" >> ${{ github.workspace }}/test-results/last-run.txt
+      - name: Custom tests 🧪
         uses: cypress-io/github-action@v6
         with:
           command: node testFailed.js run
-          working-directory: ./
+          working-directory: ${{ github.workspace }}
