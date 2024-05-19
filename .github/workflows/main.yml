@@ -21,7 +21,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: failed-tests
-          path: /**/test-results/*
+          path: ~/cypress-plugin-last-failed/test-results/last-run.txt
 
   node-script:
     if: always()
@@ -35,7 +35,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: failed-tests
-          path: /**/test-results/*
+          path: ~/cypress-plugin-last-failed/test-results/last-run.txt
       - name: Custom tests 🧪
         uses: cypress-io/github-action@v6
         with:
