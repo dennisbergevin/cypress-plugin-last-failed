@@ -18,13 +18,13 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           command: npx cypress run
-          working-directory: ${{ github.workspace }}
+          working-directory: ./
       - name: Show saved file 🖨
         if: always()
-        run: cat ${{ github.workspace }}/cypress/fixtures/test-results/last-run.txt
+        run: ls
       - name: Custom node script 🧪
         if: always()
         uses: cypress-io/github-action@v6
         with:
           command: node testFailed.js run
-          working-directory: ${{ github.workspace }}
+          working-directory: ./
