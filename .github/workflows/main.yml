@@ -16,6 +16,9 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run
+          working-directory: ${{ github.workspace }}
       - name: Show saved file 🖨
         if: always()
         run: cat ${{ github.workspace }}/cypress/fixtures/test-results/last-run.txt
