@@ -17,6 +17,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
       - name: Upload failed test file
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: failed-tests
