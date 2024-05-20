@@ -10,17 +10,20 @@ jobs:
   node-script:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@v4
-      - name: Set up test-results directory
-        run: mkdir -p test-results && chmod 777 test-results
-      - name: Cypress run
-        run: npx cypress run && cat test-results/last-run.txt
-      - name: Display file
-        if: always()
-        run: cat test-results/last-run.txt
+      - name: Install dependencies
+        id: step_one
+        run: npm install
+      - name: Run Cypress tests
+        id: step_two
+        run: |
+          npx cypress run
+        continue-on-error: true
+      - name: Print the value
+        id: step_three
+        run: |
+          printf '%s\n' "$CYPRESS_FAILED_TESTS"
+        continue-on-error: true
       - name: Custom tests 🧪
-        if: always()
         uses: cypress-io/github-action@v6
         with:
           command: node testFailed.js run

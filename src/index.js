@@ -1,3 +1,4 @@
+const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -16,25 +17,25 @@ const path = require('path');
 
 const collectFailingTests = (on, config) => {
   // Check for environment variable `collectFailingTests` to be true
-  if (config.env.collectFailingTests) {
-    on('after:run', async (results) => {
-      let failedTests = [];
-      // Grab every failed test's title
-      for (i in results.runs) {
-        const tests = results.runs[i].tests
-          .filter((test) => test.state === 'failed')
-          .map((test) => test.title[test.title.length - 1]);
+  on('after:run', async (results) => {
+    let failedTests = [];
+    // Grab every failed test's title
+    for (i in results.runs) {
+      const tests = results.runs[i].tests
+        .filter((test) => test.state === 'failed')
+        .map((test) => test.title[test.title.length - 1]);
 
-        // Only store non empty test titles
-        if (tests != '') {
-          failedTests.push(tests);
-        }
+      // Only store non empty test titles
+      if (tests != '') {
+        failedTests.push(tests);
       }
+    }
 
-      const stringedTests = failedTests.toString();
-      // Prepare a string that can be read from cy-grep
-      const greppedTestFormat = stringedTests.replaceAll(',', '; ');
+    const stringedTests = failedTests.toString();
+    // Prepare a string that can be read from cy-grep
+    const greppedTestFormat = stringedTests.replaceAll(',', '; ');
 
+    if (!config.env.CI) {
       // Use the cypress.config environment variable for failedTestDirectory
       // If not set then use the root project folder
       const failedTestFileDirectory =
@@ -50,10 +51,11 @@ const collectFailingTests = (on, config) => {
         'last-run.txt'
       );
       await fs.promises.writeFile(lastRunReportFile, greppedTestFormat);
-    });
-
+    } else {
+      exec(`echo {CYPRESS_FAILED_TESTS}=${greppedTestFormat}` >> '$GITHUB_ENV');
+    }
     return collectFailingTests;
-  }
+  });
 };
 
 /**
