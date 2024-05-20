@@ -1,4 +1,3 @@
-const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -35,27 +34,24 @@ const collectFailingTests = (on, config) => {
     // Prepare a string that can be read from cy-grep
     const greppedTestFormat = stringedTests.replaceAll(',', '; ');
 
-    if (!config.env.CI) {
-      // Use the cypress.config environment variable for failedTestDirectory
-      // If not set then use the root project folder
-      const failedTestFileDirectory =
-        config.env.failedTestDirectory === undefined
-          ? `${path.dirname(config.configFile)}/test-results/`
-          : `${config.env.failedTestDirectory}/test-results/`;
+    // Use the cypress.config environment variable for failedTestDirectory
+    // If not set then use the root project folder
+    const failedTestFileDirectory =
+      config.env.failedTestDirectory === undefined
+        ? `${path.dirname(config.configFile)}/test-results/`
+        : `${config.env.failedTestDirectory}/test-results/`;
 
-      await fs.promises.mkdir(`${failedTestFileDirectory}`, {
-        recursive: true,
-      });
-      const lastRunReportFile = path.join(
-        `${failedTestFileDirectory}`,
-        'last-run.txt'
-      );
-      await fs.promises.writeFile(lastRunReportFile, greppedTestFormat);
-    } else {
-      exec(`echo {CYPRESS_FAILED_TESTS}=${greppedTestFormat} >> '$GITHUB_ENV'`);
-    }
-    return collectFailingTests;
+    await fs.promises.mkdir(`${failedTestFileDirectory}`, {
+      recursive: true,
+    });
+    const lastRunReportFile = path.join(
+      `${failedTestFileDirectory}`,
+      'last-run.txt'
+    );
+    await fs.promises.writeFile(lastRunReportFile, greppedTestFormat);
   });
+
+  return collectFailingTests;
 };
 
 /**

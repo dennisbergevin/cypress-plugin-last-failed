@@ -16,13 +16,11 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        with:
-          env: CI=true
-      - name: Use the value
+      - name: Output the file contents
         if: always()
         id: step_three
         run: |
-          printf '%s\n' "$CYPRESS_FAILED_TESTS"
+          cat ./test-results/last-run.txt
       - name: Custom tests 🧪
         if: always()
         uses: cypress-io/github-action@v6
