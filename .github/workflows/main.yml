@@ -16,6 +16,9 @@ jobs:
       - name: Cypress run
         id: step_two
         run: cypress-io/github-action@v6
+        with:
+          command: npx cypress run
+          working-directory: ./
         continue-on-error: true
       - name: Use the value
         id: step_three
