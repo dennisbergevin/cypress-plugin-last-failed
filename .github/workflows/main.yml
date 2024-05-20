@@ -12,9 +12,10 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v4
-      - name: Create failed test file
-        run: |
-          mkdir ${{ github.workspace }}/test-results && echo "should run; needs to run" >> ${{ github.workspace }}/test-results/last-run.txt
+      - name: Set up test-results directory
+        run: mkdir -p test-results && chmod 777 test-results
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
       - name: Custom tests 🧪
         uses: cypress-io/github-action@v6
         with:
