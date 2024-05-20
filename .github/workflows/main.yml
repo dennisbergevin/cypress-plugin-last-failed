@@ -13,7 +13,7 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v4
       - name: Set up test-results directory
-        run: mkdir -p test-results && chmod 777 test-results
+        run: mkdir -p test-results/last-run.txt && chmod 777 test-results/last-run.txt
       - name: Cypress run
         uses: cypress-io/github-action@v6
       - name: Custom tests 🧪
