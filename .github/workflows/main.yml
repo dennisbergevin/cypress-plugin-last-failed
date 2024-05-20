@@ -16,6 +16,7 @@ jobs:
         run: mkdir -p test-results && chmod 777 test-results
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        run: cat test-results/last-run.txt
       - name: Display file
         if: always()
         run: cat test-results/last-run.txt
