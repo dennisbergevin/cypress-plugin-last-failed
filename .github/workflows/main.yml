@@ -16,6 +16,9 @@ jobs:
         run: mkdir -p test-results/last-run.txt && chmod 777 test-results/last-run.txt
       - name: Cypress run
         uses: cypress-io/github-action@v6
+      - name: Display structure of downloaded files
+        if: always()
+        run: ls -R
       - name: Custom tests 🧪
         if: always()
         uses: cypress-io/github-action@v6
