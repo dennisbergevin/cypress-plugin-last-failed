@@ -36,8 +36,11 @@ async function testRunFailed() {
       const failedTestCount = results.runs[0].stats.tests;
 
       const tests = [
-        [failedTestCount, 2],
-        [testTitles, ['should run', 'needs to run']],
+        [failedTestCount, 3],
+        [
+          testTitles,
+          ['should run', 'needs to run', 'will be included in failed tests'],
+        ],
       ];
       for (const [value, otherValue] of tests) {
         try {

@@ -19,11 +19,13 @@ This plugin harnesses the powers of `cy-grep` from `@bahmutov/cy-grep` plugin an
 #### Table of Contents
 
 - [Installation](#-installation)
-- [Setup](#-setup)
-- [Use](#-use)
-  - [Filter failed tests within `cypress open`](#-filter-failed-tests-within-cypress-open)
-  - [Usage with `cypress run`](#-usage-with-cypress-run)
-    - [Setting up a `npm` script](#-setting-up-a-npm-script)
+- [Run mode](#-run-mode)
+  - [Optional custom `failedTestDirectory`](#optional-custom-failedtestdirectory)
+  - [Add rule to gitignore](#add-rule-to-gitignore)
+  - [Setting up a `npm` script](#-setting-up-a-npm-script)
+- [Open mode](#-open-mode)
+  - [Recommended open mode env variables](#recommended-open-mode-env-variables)
+- [CI support](#continuous-integration-support)
 - [Typescript support](#typescript-support)
 - [Contributions](#contributions)
 
@@ -52,11 +54,21 @@ failedTestToggle();
 3. In `cypress.config`, include the following within `setupNodeEvents` for `e2e` and/or `component` testing:
 
 ```js
-const { defineConfig } = require('cypress');
-const { collectFailingTests } = require('cypress-plugin-last-failed');
-
 module.exports = defineConfig({
+  screenshotOnRunFailure: false,
+  env: {
+    failedTestDirectory: './',
+    collectFailingTests: true,
+  },
   e2e: {
+    setupNodeEvents(on, config) {
+      collectFailingTests(on, config);
+
+      require('@bahmutov/cy-grep/src/plugin')(config);
+      return config;
+    },
+  },
+  component: {
     setupNodeEvents(on, config) {
       collectFailingTests(on, config);
 
@@ -69,27 +81,27 @@ module.exports = defineConfig({
 
 ---
 
-## 🦺 Setup
+## 👟 Run mode
 
-### For `cypress run`
+1. Run tests using standard `npx cypress run`
 
-- To enable the plugin to collect and record the most recent run's failing tests, set the environment variable `collectFailingTests` to `true`.
+2. If there are failed tests, run the following command from the **directory of the project's `cypress.config`**:
 
-Example:
-
-```json
-{
-  "env": {
-    "collectFailingTests": true
-  }
-}
+```bash
+npx cypress-last-failed run
 ```
 
-- Failed test titles from each run will be written to a `test-results` directory to be read from the Module API node script:
+You can also include more cli arguments as desired, as the `npx` command is pointing to a node script harnessing the power of [Cypress module API](https://docs.cypress.io/guides/guides/module-api):
 
-  - By default, the `test-results` will be created in the directory of the `cypress.config`.
+```cli
+npx cypress-run-last-failed run --e2e --browser chrome
+```
 
-  - To customize where the `test-results` directory should be stored, add the `failedTestDirectory` environment variable to `cypress.config` with the desired relative path from the config file:
+### Optional custom `failedTestDirectory`
+
+By default, there will be a folder called `test-results` created in the directory of the `cypress.config`.
+
+- To customize where the `test-results` folder should be stored, add the `failedTestDirectory` environment variable:
 
 ```js
 // Example using a fixtures folder path relative to the cypress.config
@@ -104,6 +116,8 @@ module.exports = defineConfig({
 });
 ```
 
+### Add rule to gitignore
+
 - **Optional**: If you do not want to commit the file storing last failed tests to your remote repository, include a rule within your project's `.gitignore` file:
 
 ```
@@ -114,7 +128,23 @@ module.exports = defineConfig({
 
 ```
 
-### For `cypress open`
+### 📃 Setting up a `npm` script
+
+For convenience, you may desire to house the `npx` command within an npm script in your project's `package.json`, including any desired cli arguments:
+
+```json
+  "scripts": {
+    "run-last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
+  }
+```
+
+## ⌛ Open mode
+
+Toggling the filter will run any previously failed tests on the particular spec file.
+
+![Failed test toggle](./assets/failed-test-toggle.png)
+
+### Recommended open mode env variables
 
 - **Recommended**: Set two common environment variables tied to the `@bahmutov/cy-grep` package to enhance the experience utilizing the grep logic within the Cypress Test Runner UI using `cypress open`:
 
@@ -132,40 +162,40 @@ module.exports = defineConfig({
 
 ---
 
-## 🧰 Use
+## Continuous integration support
 
-This plugin has functionality for both `cypress open` and `cypress run`.
+An example of utilizing the plugin to re-run only the failed tests from a previous step in CI:
 
-### ⌛ Filter failed tests within `cypress open`
+```yaml
+name: test-last-failed-node-script
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+  workflow_dispatch:
 
-Within the Cypress Test Runner UI using `cypress open`, this plugin provides a filter within each spec file.
-
-Toggling the filter will run any previously failed tests on the particular spec file.
-
-![Failed test toggle](./assets/failed-test-toggle.png)
-
-### 👟 Usage with `cypress run`
-
-From the **directory of the project's `cypress.config`**, you can use the following command to re-run the latest run's failed test(s) from the terminal:
-
-```cli
-npx cypress-run-last-failed run
-```
-
-You can also include more cli arguments as desired, as the `npx` command is pointing to a node script harnessing the power of [Cypress module API](https://docs.cypress.io/guides/guides/module-api):
-
-```cli
-npx cypress-run-last-failed run --e2e --browser chrome
-```
-
-#### 📃 Setting up a `npm` script
-
-For convenience, you may desire to house the `npx` command within an npm script in your project's `package.json`, including any desired cli arguments:
-
-```json
-  "scripts": {
-    "run-last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
-  }
+jobs:
+  node-script:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+      - name: Output the file contents
+        if: always()
+        id: step_three
+        run: |
+          cat ./test-results/last-run.txt
+      - name: Custom tests 🧪
+        if: always()
+        uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress-last-failed run
+          working-directory: ${{ github.workspace }}
 ```
 
 ## Typescript support
