@@ -52,7 +52,7 @@ const collectFailingTests = (on, config) => {
       );
       await fs.promises.writeFile(lastRunReportFile, greppedTestFormat);
     } else {
-      exec(`echo {CYPRESS_FAILED_TESTS}=${greppedTestFormat}` >> '$GITHUB_ENV');
+      exec(`echo {CYPRESS_FAILED_TESTS}=${greppedTestFormat} >> '$GITHUB_ENV'`);
     }
     return collectFailingTests;
   });

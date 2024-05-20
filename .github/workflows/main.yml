@@ -16,8 +16,6 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_CI: true
       - name: Use the value
         if: always()
         id: step_three
