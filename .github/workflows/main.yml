@@ -25,5 +25,7 @@ jobs:
         if: always()
         uses: cypress-io/github-action@v6
         with:
+          # environment variable used for CI/CD tests in this repo
+          env: shouldPass=true
           command: npx cypress-last-failed run
           working-directory: ${{ github.workspace }}
