@@ -10,15 +10,14 @@ jobs:
   node-script:
     runs-on: ubuntu-22.04
     steps:
-      - name: Install dependencies
+      - name: Checkout 🛎
         id: step_one
-        run: npm install
-      - name: Run Cypress tests
+        uses: actions/checkout@v4
+      - name: Cypress run
         id: step_two
-        run: |
-          npx cypress run
+        run: cypress-io/github-action@v6
         continue-on-error: true
-      - name: Print the value
+      - name: Use the value
         id: step_three
         run: |
           printf '%s\n' "$CYPRESS_FAILED_TESTS"
