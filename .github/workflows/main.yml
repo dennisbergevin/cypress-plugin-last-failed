@@ -16,16 +16,13 @@ jobs:
       - name: Cypress run
         id: step_two
         run: cypress-io/github-action@v6
-        with:
-          command: npx cypress run
-          working-directory: ./
-        continue-on-error: true
       - name: Use the value
+        if: always()
         id: step_three
         run: |
           printf '%s\n' "$CYPRESS_FAILED_TESTS"
-        continue-on-error: true
       - name: Custom tests 🧪
+        if: always()
         uses: cypress-io/github-action@v6
         with:
           command: node testFailed.js run
