@@ -90,7 +90,7 @@ const failedTestToggle = () => {
         position: absolute;
         z-index: 1;
         top: 27px;
-        right: 0px;
+        left: 0px;
         height: 28px;
       }
       #runFailedControls:hover #runFailedTooltip {
@@ -103,7 +103,7 @@ const failedTestToggle = () => {
         content: " ";
         position: absolute;
         bottom: 100%;  /* At the top of the tooltip */
-        left: 89%;
+        right: 85%;
         margin-left: -5px;
         border-width: 5px;
         border-style: solid;
