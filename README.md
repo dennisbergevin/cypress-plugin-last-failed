@@ -10,11 +10,11 @@ A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed
 
 ![Cypress run example image](./assets/cypress-last-failed.png)
 
-## Overview
+## Features
 
-Re-run the last failed tests in both `cypress run` and `cypress open` formats for improved development and debugging experience.
-
-This plugin harnesses the powers of `cy-grep` from `@bahmutov/cy-grep` plugin and the Cypress Module API.
+- 👟 A new `cypress run` command to **only** run the previous run's failed tests
+- ⏳ A new UI toggle within `cypress open` to filter and only run any failed tests in a given spec
+- 🤖 CI/CD support
 
 #### Table of Contents
 
