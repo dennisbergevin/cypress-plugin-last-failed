@@ -94,7 +94,7 @@ npx cypress-last-failed run
 You can also include more cli arguments as desired, as the `npx` command is pointing to a node script harnessing the power of [Cypress module API](https://docs.cypress.io/guides/guides/module-api):
 
 ```cli
-npx cypress-run-last-failed run --e2e --browser chrome
+npx cypress-last-failed run --e2e --browser chrome
 ```
 
 ### Optional custom `failedTestDirectory`
@@ -134,7 +134,7 @@ For convenience, you may desire to house the `npx` command within an npm script 
 
 ```json
   "scripts": {
-    "run-last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
+    "last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
   }
 ```
 
