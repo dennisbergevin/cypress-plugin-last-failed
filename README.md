@@ -186,11 +186,11 @@ jobs:
   node-script:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
+      - name: Checkout 📦
         uses: actions/checkout@v4
-      - name: Cypress run
+      - name: Cypress run 👟
         uses: cypress-io/github-action@v6
-      - name: Output the file contents
+      - name: Output the file contents 📝
         if: always()
         run: |
           cat ./test-results/last-run.txt
