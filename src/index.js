@@ -4,9 +4,11 @@ const path = require('path');
 /**
  * Collects failed tests from the most recent Cypress test run
  *
- * After each run, a file will store failed test titles within a test-results directory on the path for fileServerFolder
+ * After each run, a file will store failed test titles within a test-results directory
  *
- * The fileServerFolder path defaults to the root project folder if unset in cypress config
+ * Environment variable `failedTestDirectory` can be used to set a specific directory to store test-results
+ *
+ * If failedTestDirectory env var is unset, test-results will be stored in cypress.config directory
  *
  * Subsequent test runs containing failed tests will overwrite this file
  * @param {*} on
@@ -35,7 +37,7 @@ const collectFailingTests = (on, config) => {
     const greppedTestFormat = stringedTests.replaceAll(',', '; ');
 
     // Use the cypress.config environment variable for failedTestDirectory
-    // If not set then use the root project folder
+    // If not set then use the cypress.config directory
     const failedTestFileDirectory =
       config.env.failedTestDirectory === undefined
         ? `${path.dirname(config.configFile)}/test-results/`

@@ -12,14 +12,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
         continue-on-error: true
       - name: Output the file contents
         if: always()
-        id: step_three
         run: |
           cat ./test-results/last-run.txt
       - name: Custom tests 🧪

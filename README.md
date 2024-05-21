@@ -58,7 +58,8 @@ module.exports = defineConfig({
   screenshotOnRunFailure: false,
   env: {
     failedTestDirectory: './',
-    collectFailingTests: true,
+    grepOmitFiltered: true,
+    grepFilterSpecs: true,
   },
   e2e: {
     setupNodeEvents(on, config) {
@@ -83,7 +84,12 @@ module.exports = defineConfig({
 
 ## 👟 Run mode
 
-1. Run tests using standard `npx cypress run`
+1. Run tests using `cypress run`:
+
+```bash
+# Example
+npx cypress run
+```
 
 2. If there are failed tests, run the following command from the **directory of the project's `cypress.config`**:
 
@@ -91,9 +97,10 @@ module.exports = defineConfig({
 npx cypress-last-failed run
 ```
 
-You can also include more cli arguments as desired, as the `npx` command is pointing to a node script harnessing the power of [Cypress module API](https://docs.cypress.io/guides/guides/module-api):
+You can also include more cli arguments similar to `cypress run`, as the command harnesses the power of [Cypress module API](https://docs.cypress.io/guides/guides/module-api):
 
-```cli
+```bash
+# Example
 npx cypress-last-failed run --e2e --browser chrome
 ```
 
@@ -181,13 +188,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
       - name: Output the file contents
         if: always()
-        id: step_three
         run: |
           cat ./test-results/last-run.txt
       - name: Custom tests 🧪

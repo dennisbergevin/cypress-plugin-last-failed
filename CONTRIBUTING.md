@@ -1,3 +1,13 @@
+# Contributing
+
+Thanks for being willing to contribute!
+
+**Working on your first Pull Request?** You can learn more from [Your First Pull Request on GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+
+## Project setup
+
+1. Fork and clone the repo
+2. Run `npm install` to install dependencies
 3. Create a branch for your PR with `git checkout -b pr/your-branch-name`
 
 > Tip: Keep your `main` branch pointing at the original repository and make
@@ -17,8 +27,13 @@
 
 ## Committing and Pushing changes
 
-Please make sure to run the tests, located in `cypress/e2e`, before you commit your changes. You can run
-`npx cypress open`. Make sure to include any test changes (if they exist) in your commit.
+Please make sure to run the node script before you commit your changes:
+
+```bash
+npx cypress-last-failed run
+```
+
+For changes related to the `cypress open` toggle, you can run `npx cypress open` to test functionality in the Cypress Test Runner UI. Make sure to include any test changes (if they exist) in your commit.
 
 ## Help needed
 

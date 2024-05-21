@@ -4,6 +4,8 @@ const { collectFailingTests } = require('./src/index');
 module.exports = defineConfig({
   env: {
     failedTestDirectory: './',
+    grepOmitFiltered: true,
+    grepFilterSpecs: true,
   },
   screenshotOnRunFailure: false,
   e2e: {
