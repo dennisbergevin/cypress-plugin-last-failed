@@ -30,7 +30,9 @@ async function runLastFailed() {
 
     await cypress.run(runOptions);
   } else {
-    console.log('No previous failed tests detected');
+    console.log(
+      'No previous failed tests detected\nTry running tests again with cypress run'
+    );
   }
 }
 
