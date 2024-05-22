@@ -1,4 +1,4 @@
-<h2 align=center>Cypress last-failed plugin</h2>
+<h2 align=center>Cypress plugin last-failed</h2>
 <p align="center">
 </p>
 
