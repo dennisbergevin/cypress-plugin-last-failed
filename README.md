@@ -91,17 +91,17 @@ module.exports = defineConfig({
 npx cypress run
 ```
 
-2. If there are failed tests, run the following command from the **directory of the project's `cypress.config`**:
+2. If there are failed tests, run the following command from the **failedTestDirectory of the project**:
 
 ```bash
-npx cypress-last-failed run
+npx cypress-plugin-last-failed run
 ```
 
 You can also include more cli arguments similar to `cypress run`, as the command harnesses the power of [Cypress module API](https://docs.cypress.io/guides/guides/module-api):
 
 ```bash
 # Example
-npx cypress-last-failed run --e2e --browser chrome
+npx cypress-plugin-last-failed run --e2e --browser chrome
 ```
 
 ### Optional custom `failedTestDirectory`
@@ -141,7 +141,7 @@ For convenience, you may desire to house the `npx` command within an npm script 
 
 ```json
   "scripts": {
-    "last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
+    "last-failed": "cd ${failedTestDirectory} && npx cypress-plugin-last-failed run --e2e --browser electron"
   }
 ```
 
