@@ -20,7 +20,6 @@ A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed
 
 - [Installation](#-installation)
 - [Run mode](#-run-mode)
-  - [Optional custom `failedTestDirectory`](#optional-custom-failedtestdirectory)
   - [Add rule to gitignore](#add-rule-to-gitignore)
   - [Setting up a `npm` script](#-setting-up-a-npm-script)
 - [Open mode](#-open-mode)
@@ -54,10 +53,12 @@ failedTestToggle();
 3. In `cypress.config`, include the following within `setupNodeEvents` for `e2e` and/or `component` testing:
 
 ```js
+const { defineConfig } = require('cypress');
+const { collectFailingTests } = require('cypress-plugin-last-failed');
+
 module.exports = defineConfig({
   screenshotOnRunFailure: false,
   env: {
-    failedTestDirectory: './',
     grepOmitFiltered: true,
     grepFilterSpecs: true,
   },
@@ -94,34 +95,17 @@ npx cypress run
 2. If there are failed tests, run the following command from the **directory of the project's `cypress.config`**:
 
 ```bash
-npx cypress-last-failed run
+npx cypress-plugin-last-failed run
 ```
 
 You can also include more cli arguments similar to `cypress run`, as the command harnesses the power of [Cypress module API](https://docs.cypress.io/guides/guides/module-api):
 
 ```bash
 # Example
-npx cypress-last-failed run --e2e --browser chrome
+npx cypress-plugin-last-failed run --e2e --browser chrome
 ```
 
-### Optional custom `failedTestDirectory`
-
-By default, there will be a folder called `test-results` created in the directory of the `cypress.config`.
-
-- To customize where the `test-results` folder should be stored, add the `failedTestDirectory` environment variable:
-
-```js
-// Example using a fixtures folder path relative to the cypress.config
-
-module.exports = defineConfig({
-  env: {
-    failedTestDirectory: './cypress/fixtures',
-  },
-  e2e: {
-    setupNodeEvents(on, config) {},
-  },
-});
-```
+There will be a folder called `test-results` created in the directory of the `cypress.config`.
 
 ### Add rule to gitignore
 
@@ -141,7 +125,7 @@ For convenience, you may desire to house the `npx` command within an npm script 
 
 ```json
   "scripts": {
-    "last-failed": "npx cypress-run-last-failed run --e2e --browser electron"
+    "last-failed": "npx cypress-plugin-last-failed run --e2e --browser electron"
   }
 ```
 
@@ -198,7 +182,7 @@ jobs:
         if: always()
         uses: cypress-io/github-action@v6
         with:
-          command: npx cypress-last-failed run
+          command: npx cypress-plugin-last-failed run
           working-directory: ${{ github.workspace }}
 ```
 
