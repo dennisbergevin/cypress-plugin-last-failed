@@ -1,6 +1,6 @@
 {
   "name": "cypress-plugin-last-failed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cypress plugin to rerun last failed tests in cypress run and open mode",
   "main": "./src/index.js",
   "scripts": {
