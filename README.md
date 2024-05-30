@@ -53,6 +53,9 @@ failedTestToggle();
 3. In `cypress.config`, include the following within `setupNodeEvents` for `e2e` and/or `component` testing:
 
 ```js
+const { defineConfig } = require('cypress');
+const { collectFailingTests } = require('cypress-plugin-last-failed');
+
 module.exports = defineConfig({
   screenshotOnRunFailure: false,
   env: {
