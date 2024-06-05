@@ -53,6 +53,37 @@ const collectFailingTests = (on, config) => {
 };
 
 /**
+ * Find and grep all the failed test titles designated within the Cypress Test Runner UI.
+ *
+ * Any retried tests that failed but ultimately passed will not be included.
+ *
+ * See README for recommendation on handling skipped tests ordinarily seen within the Cypress Test Runner UI.
+ */
+
+const grepFailed = () => {
+  // @ts-ignore
+  const failedTestTitles = [];
+
+  const failedTests = window.top?.document.querySelectorAll(
+    '.test.runnable.runnable-failed'
+  );
+
+  [...failedTests].forEach((test) => {
+    failedTestTitles.push(test.innerText.split('\n')[0]);
+  });
+
+  if (!failedTestTitles.length) {
+    console.log('No failed tests found');
+  } else {
+    console.log('running only the failed tests');
+    const grepTitles = failedTestTitles.join('; ');
+    console.log(grepTitles);
+    // @ts-ignore
+    Cypress.grep(grepTitles);
+  }
+};
+
+/**
  * Toggle for use within a spec file during `cypress open`
  */
 
@@ -176,7 +207,8 @@ const failedTestToggle = () => {
         stopBtn.click();
       }
       // when checked, grep only failed tests in spec
-      Cypress.grepFailed();
+      grepFailed();
+
       runFailedLabelElement.innerHTML = turnOnRunFailedIcon;
       runFailedTooltipElement.innerHTML = turnOnRunFailedDescription;
     } else {
