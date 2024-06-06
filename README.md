@@ -24,6 +24,7 @@ A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed
   - [Setting up a `npm` script](#-setting-up-a-npm-script)
 - [Open mode](#-open-mode)
   - [Recommended open mode env variables](#recommended-open-mode-env-variables)
+  - [Use Required Test Tags Instead Of Skipping Tests](#use-required-test-tags-instead-of-skipping-tests)
 - [CI support](#continuous-integration-support)
 - [Typescript support](#typescript-support)
 - [Contributions](#contributions)
@@ -150,6 +151,29 @@ Toggling the filter will run any previously failed tests on the particular spec 
 
 > [!NOTE]
 > More information on `grepOmitFiltered` and `grepFilterSpecs` can be read within the [README for `@bahmutov/cy-grep`](https://github.com/bahmutov/cy-grep?tab=readme-ov-file#pre-filter-specs-grepfilterspecs).
+
+### Use Required Test Tags Instead Of Skipping Tests
+
+> [!NOTE]
+> Read more about this topic within a blog post [Use Required Test Tags Instead Of Skipping Tests](https://glebbahmutov.com/blog/required-tags-instead-of-skipped-tests/) and within the [README for `@bahmutov/cy-grep`](https://github.com/bahmutov/cy-grep#required-tags).
+
+Normally, any Cypress test or suite of tests marked with a `.skip` will be shown when running tests or within the Cypress test runner UI.
+
+Since this plugin uses `@bahmutov/cy-grep` plugin, we can instead designate skipped tests using a **required tag**:
+
+```js
+it('deletes an item', { requiredTags: '@skip' }, () => {
+  expect(1).to.equal(2);
+});
+```
+
+Now running or opening Cypress in interactive mode, **you will not see any tests with `requiredTags` including `@skip`** (unless setting environment variable `grepTags=@skip`).
+
+To run just those tests with the required tag `@skip` in interactive mode:
+
+```bash
+npx cypress open --env grepTags=@skip
+```
 
 ---
 

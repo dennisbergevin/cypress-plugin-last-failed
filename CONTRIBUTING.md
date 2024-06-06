@@ -30,7 +30,7 @@ Thanks for being willing to contribute!
 Please make sure to run the node script before you commit your changes:
 
 ```bash
-npx cypress-last-failed run
+npx cypress-plugin-last-failed run
 ```
 
 For changes related to the `cypress open` toggle, you can run `npx cypress open` to test functionality in the Cypress Test Runner UI. Make sure to include any test changes (if they exist) in your commit.
