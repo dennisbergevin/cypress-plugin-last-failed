@@ -14,7 +14,7 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import { failedTestToggle } from '../../src';
+import { failedTestToggle } from '../../src/toggle';
 import './commands';
 
 failedTestToggle();
