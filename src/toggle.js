@@ -32,7 +32,7 @@ const grepFailed = () => {
  * Toggle for use within a spec file during `cypress open`
  */
 
-export const failedTestToggle = () => {
+const failedTestToggle = () => {
   const hasStyles = top?.document.querySelector('#runFailedStyle');
   const hasToggleButton = top?.document.querySelector('#runFailedToggle');
   const defaultStyles = `
@@ -166,29 +166,30 @@ export const failedTestToggle = () => {
       runFailedTooltipElement.innerHTML = turnOffRunFailedDescription;
     }
   });
+  // Wrapping logic within isInteractive check
+  // This targets cypress open mode where user can switch specs
+  if (Cypress.config('isInteractive')) {
+    Cypress.on('window:unload', () => {
+      // Store the current Cypress test runner url
+      // This is to check against any spec change in test runner while the grep filter is activated
+      // If a user does switch spec while filter is active, the filter will be reset
+      const sidebarRunsLinkPage = window.top?.document.querySelector(
+        '[data-cy="sidebar-link-runs-page"]'
+      );
+      const runFailedToggleElement =
+        window.top?.document.querySelector('#runFailedToggle');
+
+      if (
+        window.top?.document.URL !=
+          sidebarRunsLinkPage.getAttribute('data-url') &&
+        runFailedToggleElement.checked
+      ) {
+        runFailedToggleElement.click();
+      }
+
+      sidebarRunsLinkPage.setAttribute('data-url', window.top?.document.URL);
+    });
+  }
 };
 
-// Wrapping logic within isInteractive check
-// This targets cypress open mode where user can switch specs
-if (Cypress.config('isInteractive')) {
-  Cypress.on('window:unload', () => {
-    // Store the current Cypress test runner url
-    // This is to check against any spec change in test runner while the grep filter is activated
-    // If a user does switch spec while filter is active, the filter will be reset
-    const sidebarRunsLinkPage = window.top?.document.querySelector(
-      '[data-cy="sidebar-link-runs-page"]'
-    );
-    const runFailedToggleElement =
-      window.top?.document.querySelector('#runFailedToggle');
-
-    if (
-      window.top?.document.URL !=
-        sidebarRunsLinkPage.getAttribute('data-url') &&
-      runFailedToggleElement.checked
-    ) {
-      runFailedToggleElement.click();
-    }
-
-    sidebarRunsLinkPage.setAttribute('data-url', window.top?.document.URL);
-  });
-}
+module.exports = failedTestToggle;

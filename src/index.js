@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const failedTestToggle = require('./toggle');
 /**
  * Collects failed tests from the most recent Cypress test run
  *
@@ -52,4 +52,4 @@ const collectFailingTests = (on, config) => {
   return collectFailingTests;
 };
 
-module.exports = { collectFailingTests };
+module.exports = { collectFailingTests, failedTestToggle };

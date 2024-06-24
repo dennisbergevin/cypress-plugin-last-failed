@@ -43,7 +43,7 @@ npm install --save-dev cypress-plugin-last-failed
 2. In `cypress/support/e2e.js` (For E2E tests) and/or `cypress/support/component.js` (For Component tests),
 
 ```js
-import { failedTestToggle } from 'cypress-plugin-last-failed/src/toggle';
+import { failedTestToggle } from 'cypress-plugin-last-failed';
 
 const registerCypressGrep = require('@bahmutov/cy-grep');
 registerCypressGrep();
