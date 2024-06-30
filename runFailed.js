@@ -15,24 +15,32 @@ Try running tests again with cypress run`;
   if (fs.existsSync(failedTestFilePath)) {
     // Retrieve the failedTests from the file
     const failedTests = await fs.promises.readFile(failedTestFilePath, 'utf8');
-    const tests = JSON.parse(failedTests).map((el) => el.test);
-    const allSpecs = JSON.parse(failedTests).map((el) => el.spec);
-    const specs = [...new Set(allSpecs)];
 
-    const stringedSpecs = specs.toString();
-    const stringedTests = tests.toString();
-    // Prepare a string that can be read from cy-grep
-    const greppedTestFormat = stringedTests.replaceAll(',', '; ');
+    // Retrieve the parent suite and tests in the results from test-results/last-run
+    const parentAndTest = JSON.parse(failedTests).map(({ parent, test }) => ({
+      parent,
+      test,
+    }));
+    // Combine parent suite and test together
+    const resultSet = new Set(
+      Object.values(parentAndTest).flatMap(
+        (parent) => parent.parent + ',' + parent.test + ';'
+      )
+    );
+    // Format string for use in grep functionality
+    const stringedTests = Array.from(resultSet)
+      .toString()
+      .replaceAll(',', ' ')
+      .slice(0, -1);
 
-    if (greppedTestFormat.length > 0) {
+    if (stringedTests.length > 0) {
       // Allow for additional cli arguments to be passed to the run command
       const runOptions = await cypress.cli.parseRunArguments(
         process.argv.slice(2)
       );
 
       // Set cypress environment variables needed for running last failed tests
-      process.env.CYPRESS_grep = `${greppedTestFormat}`;
-      process.env.CYPRESS_grepSpec = `${stringedSpecs}`;
+      process.env.CYPRESS_grep = `${stringedTests}`;
       process.env.CYPRESS_grepFilterSpecs = true;
       process.env.CYPRESS_grepOmitFiltered = true;
 

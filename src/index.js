@@ -28,8 +28,8 @@ const collectFailingTests = (on, config) => {
       for (i in tests) {
         let report = {
           spec: spec,
-          parent: tests[i][0],
-          test: tests[i][1],
+          parent: [...tests[i].slice(0, -1)],
+          test: tests[i].pop(),
         };
         // Only store non empty test titles
         if (tests != '') {
