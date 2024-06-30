@@ -18,7 +18,7 @@ jobs:
       - name: Output the file contents 📝
         if: always()
         run: |
-          cat ./test-results/last-run.txt
+          cat ./test-results/last-run.json
       - name: Custom tests 🧪
         if: always()
         uses: cypress-io/github-action@v6

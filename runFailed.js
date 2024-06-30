@@ -10,20 +10,29 @@ async function runLastFailed() {
 Ensure you are in the directory of your cypress config
 Try running tests again with cypress run`;
 
-  const failedTestFilePath = `${appDir}/test-results/last-run.txt`;
+  const failedTestFilePath = `${appDir}/test-results/last-run.json`;
 
   if (fs.existsSync(failedTestFilePath)) {
     // Retrieve the failedTests from the file
     const failedTests = await fs.promises.readFile(failedTestFilePath, 'utf8');
+    const tests = JSON.parse(failedTests).map((el) => el.test);
+    const allSpecs = JSON.parse(failedTests).map((el) => el.spec);
+    const specs = [...new Set(allSpecs)];
 
-    if (failedTests.length > 0) {
+    const stringedSpecs = specs.toString();
+    const stringedTests = tests.toString();
+    // Prepare a string that can be read from cy-grep
+    const greppedTestFormat = stringedTests.replaceAll(',', '; ');
+
+    if (greppedTestFormat.length > 0) {
       // Allow for additional cli arguments to be passed to the run command
       const runOptions = await cypress.cli.parseRunArguments(
         process.argv.slice(2)
       );
 
       // Set cypress environment variables needed for running last failed tests
-      process.env.CYPRESS_grep = `${failedTests}`;
+      process.env.CYPRESS_grep = `${greppedTestFormat}`;
+      process.env.CYPRESS_grepSpec = `${stringedSpecs}`;
       process.env.CYPRESS_grepFilterSpecs = true;
       process.env.CYPRESS_grepOmitFiltered = true;
 
