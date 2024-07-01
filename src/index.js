@@ -21,17 +21,22 @@ const collectFailingTests = (on, config) => {
     for (i in results.runs) {
       const tests = results.runs[i].tests
         .filter((test) => test.state === 'failed')
-        .map((test) => test.title[test.title.length - 1]);
+        .map((test) => test.title);
 
-      // Only store non empty test titles
-      if (tests != '') {
-        failedTests.push(tests);
+      const spec = results.runs[i].spec.relative;
+
+      for (i in tests) {
+        let report = {
+          spec: spec,
+          parent: [...tests[i].slice(0, -1)],
+          test: tests[i].pop(),
+        };
+        // Only store non empty test titles
+        if (tests != '') {
+          failedTests.push(report);
+        }
       }
     }
-
-    const stringedTests = failedTests.toString();
-    // Prepare a string that can be read from cy-grep
-    const greppedTestFormat = stringedTests.replaceAll(',', '; ');
 
     // Use the cypress.config directory for path for storing test-results
     const failedTestFileDirectory = `${path.dirname(
@@ -44,9 +49,9 @@ const collectFailingTests = (on, config) => {
     });
     const lastRunReportFile = path.join(
       `${failedTestFileDirectory}`,
-      'last-run.txt'
+      'last-run.json'
     );
-    await fs.promises.writeFile(lastRunReportFile, greppedTestFormat);
+    await fs.promises.writeFile(lastRunReportFile, JSON.stringify(failedTests));
   });
 
   return collectFailingTests;
