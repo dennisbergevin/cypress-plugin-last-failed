@@ -34,7 +34,7 @@ jobs:
       - name: Cypress run - store failed tests in custom directory 👟
         uses: cypress-io/github-action@v6
         with:
-          command: LAST_FAILED_RESULTS_PATH=cypress/config npx cypress run --env shouldPass=true
+          env: LAST_FAILED_RESULTS_PATH=cypress/config
           working-directory: ${{ github.workspace }}
         continue-on-error: true
       - name: Output the file contents 📝
