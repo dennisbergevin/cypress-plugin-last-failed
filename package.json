@@ -5,7 +5,9 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "scripts": {
-    "last-failed": "npx cypress-plugin-last-failed run --e2e --browser electron"
+    "last-failed": "npx cypress-plugin-last-failed run --e2e --browser electron",
+    "custom-dir-run": "LAST_FAILED_RESULTS_PATH=cypress/config npx cypress run",
+    "custom-dir-last-failed": "LAST_FAILED_RESULTS_PATH=cypress/config npx cypress-plugin-last-failed run --env shouldPass=true"
   },
   "bin": {
     "cypress-plugin-last-failed": "runFailed.js"
