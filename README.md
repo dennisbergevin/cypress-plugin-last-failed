@@ -22,6 +22,7 @@ A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed
   - [Table of Contents](#table-of-contents)
 - [📦 Installation](#-installation)
 - [👟 Run mode](#-run-mode)
+  - [Specify a custom test-results directory](#specify-a-custom-test-results-directory)
   - [Add rule to gitignore](#add-rule-to-gitignore)
   - [📃 Setting up a `npm` script](#-setting-up-a-npm-script)
 - [⌛ Open mode](#-open-mode)
@@ -107,6 +108,8 @@ You can also include more cli arguments similar to `cypress run`, as the command
 # Example
 npx cypress-plugin-last-failed run --e2e --browser chrome
 ```
+
+### Specify a custom test-results directory
 
 There will be a folder called test-results created in the directory of the cypress.config. If you would like to specify a different folder for test results, use the LAST_FAILED_RESULTS_PATH environment variable:
 
