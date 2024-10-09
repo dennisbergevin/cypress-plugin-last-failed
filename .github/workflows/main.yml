@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  node-script:
+  default-test-results:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 📦
@@ -19,10 +19,30 @@ jobs:
         if: always()
         run: |
           cat ./test-results/last-run.json
-      - name: Custom tests 🧪
+      - name: Run failed tests from default directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
         with:
           # environment variable used for CI/CD tests in this repo
           command: npx cypress-plugin-last-failed run --env shouldPass=true
+          working-directory: ${{ github.workspace }}
+  custom-test-results:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout 📦
+        uses: actions/checkout@v4
+      - name: Cypress run - store failed tests in custom directory 👟
+        uses: cypress-io/github-action@v6
+        with:
+          command: LAST_FAILED_RESULTS_PATH=cypress/config npx cypress run --env shouldPass=true
+        continue-on-error: true
+      - name: Output the file contents 📝
+        if: always()
+        run: |
+          cat ./test-results/last-run.json
+      - name: Run failed tests from custom directory 🧪
+        if: always()
+        uses: cypress-io/github-action@v6
+        with:
+          command: LAST_FAILED_RESULTS_PATH=cypress/config npx cypress-plugin-last-failed run --env shouldPass=true
           working-directory: ${{ github.workspace }}

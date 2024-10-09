@@ -1,5 +1,5 @@
 // index.d.ts
-declare module "cypress-plugin-last-failed" {
+declare module 'cypress-plugin-last-failed' {
   /**
    * Collects failed tests from the most recent Cypress test run.
    *

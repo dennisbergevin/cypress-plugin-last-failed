@@ -1,6 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const failedTestToggle = require("./toggle");
+const fs = require('fs');
+const path = require('path');
+const failedTestToggle = require('./toggle');
 
 /**
  * Collects failed tests from the most recent Cypress test run
@@ -15,13 +15,13 @@ const failedTestToggle = require("./toggle");
  * @returns
  */
 const collectFailingTests = (on, config) => {
-  on("after:run", async (results) => {
+  on('after:run', async (results) => {
     let failedTests = [];
 
     for (const run of results.runs) {
       if (run.tests && run.spec) {
         const tests = run.tests
-          .filter((test) => test.state === "failed")
+          .filter((test) => test.state === 'failed')
           .map((test) => test.title);
 
         const spec = run.spec.relative;
@@ -35,13 +35,13 @@ const collectFailingTests = (on, config) => {
       ? path.join(
           process.env.INIT_CWD,
           process.env.LAST_FAILED_RESULTS_PATH,
-          "test-results"
+          'test-results'
         )
       : `${path.dirname(config.configFile)}/test-results/`;
 
     // Create the directory and last-run file where failed tests will be written to
     await fs.promises.mkdir(failedTestFilePath, { recursive: true });
-    const lastRunReportFile = path.join(failedTestFilePath, "last-run.json");
+    const lastRunReportFile = path.join(failedTestFilePath, 'last-run.json');
     await fs.promises.writeFile(lastRunReportFile, JSON.stringify(failedTests));
   });
 

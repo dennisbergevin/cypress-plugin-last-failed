@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const cypress = require("cypress");
-const fs = require("fs");
-const path = require("path");
-const appDir = process.env.INIT_CWD ? process.env.INIT_CWD : path.resolve(".");
+const cypress = require('cypress');
+const fs = require('fs');
+const path = require('path');
+const appDir = process.env.INIT_CWD ? process.env.INIT_CWD : path.resolve('.');
 
 async function runLastFailed() {
   const noFailedTestsMessage = `No previous failed tests detected
@@ -14,14 +14,14 @@ Try running tests again with cypress run`;
     ? path.join(
         appDir,
         process.env.LAST_FAILED_RESULTS_PATH,
-        "test-results",
-        "last-run.json"
+        'test-results',
+        'last-run.json'
       )
-    : path.join(appDir, "test-results", "last-run.json");
+    : path.join(appDir, 'test-results', 'last-run.json');
 
   if (fs.existsSync(failedTestFilePath)) {
     // Retrieve the failedTests from the file
-    const failedTests = await fs.promises.readFile(failedTestFilePath, "utf8");
+    const failedTests = await fs.promises.readFile(failedTestFilePath, 'utf8');
 
     // Retrieve the parent suite and tests in the results from test-results/last-run
     const parentAndTest = JSON.parse(failedTests).map(({ parent, test }) => ({
@@ -31,13 +31,13 @@ Try running tests again with cypress run`;
     // Combine parent suite and test together
     const resultSet = new Set(
       Object.values(parentAndTest).flatMap(
-        (parent) => parent.parent + "," + parent.test + ";"
+        (parent) => parent.parent + ',' + parent.test + ';'
       )
     );
     // Format string for use in grep functionality
     const stringedTests = Array.from(resultSet)
       .toString()
-      .replaceAll(",", " ")
+      .replaceAll(',', ' ')
       .slice(0, -1);
 
     if (stringedTests.length > 0) {
