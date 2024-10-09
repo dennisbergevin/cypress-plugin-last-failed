@@ -1,5 +1,5 @@
-const { defineConfig } = require("cypress");
-const { collectFailingTests } = require("../../src/index");
+const { defineConfig } = require('cypress');
+const { collectFailingTests } = require('../../src/index');
 
 module.exports = defineConfig({
   env: {
@@ -9,7 +9,7 @@ module.exports = defineConfig({
   screenshotOnRunFailure: false,
   e2e: {
     setupNodeEvents(on, config) {
-      require("@bahmutov/cy-grep/src/plugin")(config);
+      require('@bahmutov/cy-grep/src/plugin')(config);
       collectFailingTests(on, config);
 
       return config;
@@ -17,7 +17,7 @@ module.exports = defineConfig({
   },
   component: {
     setupNodeEvents(on, config) {
-      require("@bahmutov/cy-grep/src/plugin")(config);
+      require('@bahmutov/cy-grep/src/plugin')(config);
       collectFailingTests(on, config);
 
       return config;

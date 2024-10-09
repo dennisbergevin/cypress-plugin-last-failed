@@ -19,9 +19,10 @@ A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed
 #### Table of Contents
 
 - [Features](#features)
-    - [Table of Contents](#table-of-contents)
+  - [Table of Contents](#table-of-contents)
 - [📦 Installation](#-installation)
 - [👟 Run mode](#-run-mode)
+  - [Specify a custom test-results directory](#specify-a-custom-test-results-directory)
   - [Add rule to gitignore](#add-rule-to-gitignore)
   - [📃 Setting up a `npm` script](#-setting-up-a-npm-script)
 - [⌛ Open mode](#-open-mode)
@@ -45,9 +46,9 @@ npm install --save-dev cypress-plugin-last-failed
 2. In `cypress/support/e2e.js` (For E2E tests) and/or `cypress/support/component.js` (For Component tests),
 
 ```js
-import { failedTestToggle } from "cypress-plugin-last-failed";
+import { failedTestToggle } from 'cypress-plugin-last-failed';
 
-const registerCypressGrep = require("@bahmutov/cy-grep");
+const registerCypressGrep = require('@bahmutov/cy-grep');
 registerCypressGrep();
 
 failedTestToggle();
@@ -56,8 +57,8 @@ failedTestToggle();
 3. In `cypress.config`, include the following within `setupNodeEvents` for `e2e` and/or `component` testing:
 
 ```js
-const { defineConfig } = require("cypress");
-const { collectFailingTests } = require("cypress-plugin-last-failed");
+const { defineConfig } = require('cypress');
+const { collectFailingTests } = require('cypress-plugin-last-failed');
 
 module.exports = defineConfig({
   screenshotOnRunFailure: false,
@@ -69,7 +70,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       collectFailingTests(on, config);
 
-      require("@bahmutov/cy-grep/src/plugin")(config);
+      require('@bahmutov/cy-grep/src/plugin')(config);
       return config;
     },
   },
@@ -77,7 +78,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       collectFailingTests(on, config);
 
-      require("@bahmutov/cy-grep/src/plugin")(config);
+      require('@bahmutov/cy-grep/src/plugin')(config);
       return config;
     },
   },
@@ -107,6 +108,8 @@ You can also include more cli arguments similar to `cypress run`, as the command
 # Example
 npx cypress-plugin-last-failed run --e2e --browser chrome
 ```
+
+### Specify a custom test-results directory
 
 There will be a folder called test-results created in the directory of the cypress.config. If you would like to specify a different folder for test results, use the LAST_FAILED_RESULTS_PATH environment variable:
 
@@ -171,7 +174,7 @@ Normally, any Cypress test or suite of tests marked with a `.skip` will be shown
 Since this plugin uses `@bahmutov/cy-grep` plugin, we can instead designate skipped tests using a **required tag**:
 
 ```js
-it("deletes an item", { requiredTags: "@skip" }, () => {
+it('deletes an item', { requiredTags: '@skip' }, () => {
   expect(1).to.equal(2);
 });
 ```
@@ -195,7 +198,7 @@ name: test-last-failed-node-script
 on:
   push:
     branches:
-      - "main"
+      - 'main'
   pull_request:
   workflow_dispatch:
 
