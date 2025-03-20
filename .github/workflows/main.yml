@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Checkout 📦
         uses: actions/checkout@v4
-      - name: Cypress run - store failed tests in custom directory 👟
+      - name: Cypress run - run burn=10 🔥
         uses: cypress-io/github-action@v6
         with:
           # using cy-grep plugin burn test feature
