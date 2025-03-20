@@ -26,7 +26,7 @@ const collectFailingTests = (on, config) => {
 
         const spec = run.spec.relative;
 
-        failedTests = failedTests.concat(generateReports(tests, spec));
+        failedTests = failedTests.concat(generateReports(tests, spec, config));
       }
     }
 
@@ -48,12 +48,16 @@ const collectFailingTests = (on, config) => {
   return collectFailingTests;
 };
 
-const generateReports = (tests, spec) => {
-  const reports = [];
+const generateReports = (tests, spec, config) => {
+  let reports = [];
   for (const test of tests) {
     const testCopy = [...test]; // Create a copy of the array to avoid mutation
-    const testTitle = testCopy.pop(); // Extract the test title
+    let testTitle = testCopy.pop(); // Extract the test title
     if (testTitle) {
+      // If --env burn=X is set from cy-grep, remove the ": burning X of X"
+      testTitle = config.env.burn
+        ? testTitle.replace(/: burning .* of .*/, '')
+        : testTitle;
       const report = {
         spec: spec,
         parent: testCopy, // Parent titles
@@ -62,7 +66,18 @@ const generateReports = (tests, spec) => {
       reports.push(report);
     }
   }
-  return reports;
+  // If --env burn=X is set from cy-grep, remove the duplicate test objects
+  if (config.env.burn) {
+    const seen = new Set();
+    const filteredReports = reports.filter((el) => {
+      const duplicate = seen.has(el.test);
+      seen.add(el.test);
+      return !duplicate;
+    });
+    return filteredReports;
+  } else {
+    return reports;
+  }
 };
 
 module.exports = { collectFailingTests, failedTestToggle };
