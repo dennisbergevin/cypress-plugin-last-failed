@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  default-test-results:
+  default-dir-test-results:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 📦
@@ -26,7 +26,30 @@ jobs:
           # environment variable used for CI/CD tests in this repo
           command: npx cypress-plugin-last-failed run --env shouldPass=true
           working-directory: ${{ github.workspace }}
-  custom-test-results:
+  burn-test-results:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout 📦
+        uses: actions/checkout@v4
+      - name: Cypress run - run burn=10 🔥
+        uses: cypress-io/github-action@v6
+        with:
+          # using cy-grep plugin burn test feature
+          command: npx cypress run --env burn=10
+          working-directory: ${{ github.workspace }}
+        continue-on-error: true
+      - name: Output the file contents 📝
+        if: always()
+        run: |
+          cat ./test-results/last-run.json
+      - name: Run failed tests from default directory 🧪
+        if: always()
+        uses: cypress-io/github-action@v6
+        with:
+          # environment variable used for CI/CD tests in this repo
+          command: npx cypress-plugin-last-failed run --env shouldPass=true
+          working-directory: ${{ github.workspace }}
+  custom-dir-test-results:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 📦
