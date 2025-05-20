@@ -21,16 +21,12 @@ jobs:
           cat ./test-results/last-run.json
       - name: Run failed tests from default directory 🧪
         if: always()
-        run: |
-          set +e
-          npx cypress-plugin-last-failed run --env shouldPass=true
-          exitcode="$?"
-          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
-      - name: Output the runFailed node script exit code 📝
-        if: always()
-        run: |
-          echo ${{ steps.run-failed.outputs.exitcode }}
-  fail-exit-code-check:
+        uses: cypress-io/github-action@v6
+        with:
+          # environment variable used for CI/CD tests in this repo
+          command: npx cypress-plugin-last-failed run --env shouldPass=true
+          working-directory: ${{ github.workspace }}
+  exit-code-check:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 📦
@@ -73,15 +69,11 @@ jobs:
           cat ./test-results/last-run.json
       - name: Run failed tests from default directory 🧪
         if: always()
-        run: |
-          set +e
-          npx cypress-plugin-last-failed run --env shouldPass=true
-          exitcode="$?"
-          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
-      - name: Output the runFailed node script exit code 📝
-        if: always()
-        run: |
-          echo ${{ steps.run-failed.outputs.exitcode }}
+        uses: cypress-io/github-action@v6
+        with:
+          # environment variable used for CI/CD tests in this repo
+          command: npx cypress-plugin-last-failed run --env shouldPass=true
+          working-directory: ${{ github.workspace }}
   custom-dir-test-results:
     runs-on: ubuntu-22.04
     steps:
@@ -99,12 +91,7 @@ jobs:
           cat ./cypress/config/test-results/last-run.json
       - name: Run failed tests from custom directory 🧪
         if: always()
-        run: |
-          set +e
-          npm run custom-dir-last-failed
-          exitcode="$?"
-          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
-      - name: Output the runFailed node script exit code 📝
-        if: always()
-        run: |
-          echo ${{ steps.run-failed.outputs.exitcode }}
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm run custom-dir-last-failed
+          working-directory: ${{ github.workspace }}
