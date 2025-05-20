@@ -51,7 +51,15 @@ Try running tests again with cypress run`;
       process.env.CYPRESS_grepFilterSpecs = true;
       process.env.CYPRESS_grepOmitFiltered = true;
 
-      await cypress.run(runOptions);
+      await cypress
+        .run(runOptions)
+        .then((results) => {
+          process.exit(results.totalFailed);
+        })
+        .catch((err) => {
+          console.error(err);
+          process.exit(1);
+        });
     } else {
       console.log(noFailedTestsMessage);
     }

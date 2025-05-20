@@ -26,6 +26,31 @@ jobs:
           # environment variable used for CI/CD tests in this repo
           command: npx cypress-plugin-last-failed run --env shouldPass=true
           working-directory: ${{ github.workspace }}
+  exit-code-check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout 📦
+        uses: actions/checkout@v4
+      - name: Cypress run 👟
+        uses: cypress-io/github-action@v6
+        continue-on-error: true
+      - name: Output the file contents 📝
+        if: always()
+        run: |
+          cat ./test-results/last-run.json
+      - name: Run failed tests from default directory 🧪
+        id: run-failed
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          npx cypress-plugin-last-failed run
+          exitcode="$?"
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+      - name: Output the runFailed node script exit code 📝
+        if: always()
+        run: |
+          echo ${{ steps.run-failed.outputs.exitcode }}
   burn-test-results:
     runs-on: ubuntu-22.04
     steps:
