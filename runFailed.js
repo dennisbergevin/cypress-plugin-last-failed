@@ -29,16 +29,17 @@ Try running tests again with cypress run`;
       test,
     }));
     // Combine parent suite and test together
+    // If parent title is empty do not add space before test title
     const resultSet = new Set(
       Object.values(parentAndTest).flatMap(
-        (parent) => parent.parent + ',' + parent.test + ';'
+        (parent) =>
+          (parent.parent !== '' ? parent.parent + ' ' : parent.parent) +
+          parent.test
       )
     );
+
     // Format string for use in grep functionality
-    const stringedTests = Array.from(resultSet)
-      .toString()
-      .replaceAll(',', ' ')
-      .slice(0, -1);
+    const stringedTests = Array.from(resultSet).join('; ').toString();
 
     if (stringedTests.length > 0) {
       // Allow for additional cli arguments to be passed to the run command
