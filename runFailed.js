@@ -36,10 +36,7 @@ Try running tests again with cypress run`;
     );
 
     // Format string for use in grep functionality
-    const stringedTests = Array.from(resultSet)
-      .join('; ')
-      .toString()
-      .slice(0, -1);
+    const stringedTests = Array.from(resultSet).join('; ').toString();
 
     if (stringedTests.length > 0) {
       // Allow for additional cli arguments to be passed to the run command
