@@ -29,9 +29,12 @@ Try running tests again with cypress run`;
       test,
     }));
     // Combine parent suite and test together
+    // If parent title is empty do not add space before test title
     const resultSet = new Set(
       Object.values(parentAndTest).flatMap(
-        (parent) => parent.parent + ' ' + parent.test
+        (parent) =>
+          (parent.parent !== '' ? parent.parent + ' ' : parent.parent) +
+          parent.test
       )
     );
 

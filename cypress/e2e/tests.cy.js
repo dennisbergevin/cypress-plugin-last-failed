@@ -1,4 +1,4 @@
-describe('Should run expected tests', () => {
+describe('Should, run expected tests', () => {
   it('should run', () => {
     if (Cypress.env('shouldPass')) {
       expect(true).to.eq(true);
