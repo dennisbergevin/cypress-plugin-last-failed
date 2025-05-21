@@ -31,13 +31,14 @@ Try running tests again with cypress run`;
     // Combine parent suite and test together
     const resultSet = new Set(
       Object.values(parentAndTest).flatMap(
-        (parent) => parent.parent + ',' + parent.test + ';'
+        (parent) => parent.parent + ' ' + parent.test
       )
     );
+
     // Format string for use in grep functionality
     const stringedTests = Array.from(resultSet)
+      .join('; ')
       .toString()
-      .replaceAll(',', ' ')
       .slice(0, -1);
 
     if (stringedTests.length > 0) {

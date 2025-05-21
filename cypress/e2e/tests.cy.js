@@ -19,7 +19,7 @@ describe('Should run expected tests', () => {
     }
   });
 
-  it('will be included in failed tests', () => {
+  it('will, be included in failed tests', () => {
     if (Cypress.env('shouldPass')) {
       expect(10).to.eq(10);
     } else {
@@ -38,4 +38,12 @@ describe('Should run expected tests', () => {
   it('skipped', { requiredTags: '@skip' }, () => {
     expect(10).to.eq(10);
   });
+});
+
+it('non-suite test, 1', () => {
+  if (Cypress.env('shouldPass')) {
+    expect(true).to.eq(true);
+  } else {
+    expect(true).to.eq(false);
+  }
 });
