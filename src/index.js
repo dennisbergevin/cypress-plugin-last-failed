@@ -70,8 +70,12 @@ const generateReports = (tests, spec, config) => {
   if (config.env.burn) {
     const seen = new Set();
     const filteredReports = reports.filter((el) => {
-      const duplicate = seen.has(el.test);
-      seen.add(el.test);
+      const duplicate = seen.has(
+        (el.parent !== '' ? el.parent.join(' ') + ' ' : el.parent) + el.test
+      );
+      seen.add(
+        (el.parent !== '' ? el.parent.join(' ') + ' ' : el.parent) + el.test
+      );
       return !duplicate;
     });
     return filteredReports;
