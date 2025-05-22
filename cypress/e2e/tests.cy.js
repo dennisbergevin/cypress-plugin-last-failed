@@ -11,12 +11,23 @@ describe('Should, run expected tests', () => {
     expect(true).to.eq(true);
   });
 
-  it('needs to run', () => {
-    if (Cypress.env('shouldPass')) {
-      expect(1).to.eq(1);
-    } else {
-      expect(1).to.eq(2);
-    }
+  describe('Inner suite, 1', () => {
+    it('needs to run', () => {
+      if (Cypress.env('shouldPass')) {
+        expect(1).to.eq(1);
+      } else {
+        expect(1).to.eq(2);
+      }
+    });
+    describe('Inner suite, 2', () => {
+      it('needs to run', () => {
+        if (Cypress.env('shouldPass')) {
+          expect(1).to.eq(1);
+        } else {
+          expect(1).to.eq(2);
+        }
+      });
+    });
   });
 
   it('will, be included in failed tests', () => {
