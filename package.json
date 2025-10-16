@@ -1,6 +1,6 @@
 {
   "name": "cypress-plugin-last-failed",
-  "version": "2.0.10",
+  "version": "2.1.0",
   "description": "Cypress plugin to rerun last failed tests in cypress run and open mode",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -18,8 +18,8 @@
     "cypress-plugin"
   ],
   "devDependencies": {
-    "@bahmutov/cy-grep": "^2.0.22",
-    "cypress": "^13.9.0"
+    "@bahmutov/cy-grep": "^2.0.37",
+    "cypress": "^15.4.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
