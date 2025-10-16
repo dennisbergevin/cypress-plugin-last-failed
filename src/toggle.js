@@ -50,23 +50,27 @@ const failedTestToggle = () => {
         #runFailedControls label {
           background-color: transparent;
           padding-top: 5px;
+          padding-right: 2px;
         }
         #runFailedControls #runFailedTooltip {
           visibility: hidden;
-          width: 134px;
+          width: 150px;
           background-color: #f3f4fa;
           color: #1b1e2e;
           text-align: center;
           padding: 5px;
           border-radius: 3px;
           position: absolute;
-          z-index: 1;
-          top: 27px;
-          left: 0px;
+          z-index: 99999;
+          top: 33px;
+          right: -2px;
           height: 28px;
+          overflow: visible;
         }
         #runFailedControls:hover #runFailedTooltip {
           visibility: visible;
+          z-index: 99999;
+          overflow: visible;
         }
         #runFailedButton #runFailedLabel {
           cursor: pointer;
@@ -75,14 +79,19 @@ const failedTestToggle = () => {
           content: " ";
           position: absolute;
           bottom: 100%;  /* At the top of the tooltip */
-          right: 85%;
+          left: 89%;
+          z-index: 99999;
           margin-left: -5px;
           border-width: 5px;
           border-style: solid;
+          overflow: visible;
           border-color: transparent transparent #f3f4fa transparent;
         }
         .reporter:has(#runFailed:checked) .command.command-name-request:has(.command-is-event) {
           display:none
+        }
+        .spec-container {
+          overflow: visible !important
         }
         `;
   const turnOffRunFailedIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#f59aa9" class="bi bi-filter-circle" viewBox="0 0 16 16">
@@ -99,15 +108,27 @@ const failedTestToggle = () => {
 
   // append styles
   if (!hasStyles) {
-    const reporterEl = top?.document.querySelector('#unified-reporter');
+    let reporterEl;
     const reporterStyleEl = document.createElement('style');
+    if (Cypress.version >= '15.0.0') {
+      reporterEl = window.top?.document.querySelector('.runnable-header');
+    } else {
+      reporterEl = window.top?.document.querySelector('#unified-reporter');
+    }
     reporterStyleEl.setAttribute('id', 'runFailedStyle');
     reporterStyleEl.innerHTML = defaultStyles;
     reporterEl?.appendChild(reporterStyleEl);
   }
 
   if (!hasToggleButton) {
-    const header = top?.document.querySelector('#unified-reporter header');
+    let header;
+    if (Cypress.version >= '15.0.0') {
+      // TODO: Cypress v15 GUI provides option for Cypress Studio which pushes the grep toggle button around the UI
+      // For simplicity, moving the toggle button to the spec container above the stop button
+      header = window.top?.document.querySelector('.runnable-header');
+    } else {
+      header = window.top?.document.querySelector('#unified-reporter header');
+    }
     const headerToggleDiv = document.createElement('div');
     const headerToggleSpan = document.createElement('span');
     const headerToggleTooltip = document.createElement('span');
