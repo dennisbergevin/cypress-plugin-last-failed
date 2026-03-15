@@ -19,7 +19,7 @@
   ],
   "devDependencies": {
     "@bahmutov/cy-grep": "^2.1.0",
-    "cypress": "^15.11.0"
+    "cypress": "^15.12.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
