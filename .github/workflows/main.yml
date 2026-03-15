@@ -24,6 +24,8 @@ jobs:
       - name: Run failed tests from default directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           # environment variable used for CI/CD tests in this repo
           command: npx cypress-plugin-last-failed run --env shouldPass=true
@@ -45,6 +47,8 @@ jobs:
       - name: Run failed tests from default directory 🧪
         id: run-failed
         if: always()
+        env:
+          DEBUG: cy-grep
         continue-on-error: true
         run: |
           set +e
@@ -76,6 +80,8 @@ jobs:
       - name: Run failed tests from default directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           # environment variable used for CI/CD tests in this repo
           command: npx cypress-plugin-last-failed run --env shouldPass=true
