@@ -14,6 +14,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Cypress run 👟
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         continue-on-error: true
       - name: Output the file contents 📝
         if: always()
@@ -22,9 +24,11 @@ jobs:
       - name: Run failed tests from default directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           # environment variable used for CI/CD tests in this repo
-          command: npx cypress-plugin-last-failed run --env shouldPass=true
+          command: npx cypress-plugin-last-failed run --expose shouldPass=true
           working-directory: ${{ github.workspace }}
   exit-code-check:
     runs-on: ubuntu-22.04
@@ -33,6 +37,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Cypress run 👟
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         continue-on-error: true
       - name: Output the file contents 📝
         if: always()
@@ -42,6 +48,8 @@ jobs:
         id: run-failed
         if: always()
         continue-on-error: true
+        env:
+          DEBUG: cy-grep
         run: |
           set +e
           npx cypress-plugin-last-failed run
@@ -58,9 +66,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Cypress run - run burn=10 🔥
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           # using cy-grep plugin burn test feature
-          command: npx cypress run --env burn=10
+          command: npx cypress run --expose burn=10
           working-directory: ${{ github.workspace }}
         continue-on-error: true
       - name: Output the file contents 📝
@@ -70,9 +80,11 @@ jobs:
       - name: Run failed tests from default directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           # environment variable used for CI/CD tests in this repo
-          command: npx cypress-plugin-last-failed run --env shouldPass=true
+          command: npx cypress-plugin-last-failed run --expose shouldPass=true
           working-directory: ${{ github.workspace }}
   custom-dir-test-results:
     runs-on: ubuntu-22.04
@@ -81,6 +93,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Cypress run - store failed tests in custom directory 👟
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           command: npm run custom-dir-run
           working-directory: ${{ github.workspace }}
@@ -92,6 +106,8 @@ jobs:
       - name: Run failed tests from custom directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           command: npm run custom-dir-last-failed
           working-directory: ${{ github.workspace }}

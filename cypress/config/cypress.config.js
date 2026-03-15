@@ -2,7 +2,8 @@ const { defineConfig } = require('cypress');
 const { collectFailingTests } = require('../../src/index');
 
 module.exports = defineConfig({
-  env: {
+  allowCypressEnv: false,
+  expose: {
     grepOmitFiltered: true,
     grepFilterSpecs: true,
   },

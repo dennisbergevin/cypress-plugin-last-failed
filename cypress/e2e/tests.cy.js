@@ -1,6 +1,6 @@
 describe('Should, run expected tests', () => {
   it('should run', () => {
-    if (Cypress.env('shouldPass')) {
+    if (Cypress.expose('shouldPass')) {
       expect(true).to.eq(true);
     } else {
       expect(true).to.eq(false);
@@ -13,7 +13,7 @@ describe('Should, run expected tests', () => {
 
   describe('Inner suite, 1', () => {
     it('needs to run', () => {
-      if (Cypress.env('shouldPass')) {
+      if (Cypress.expose('shouldPass')) {
         expect(1).to.eq(1);
       } else {
         expect(1).to.eq(2);
@@ -21,7 +21,7 @@ describe('Should, run expected tests', () => {
     });
     describe('Inner suite, 2', () => {
       it('needs to run', () => {
-        if (Cypress.env('shouldPass')) {
+        if (Cypress.expose('shouldPass')) {
           expect(1).to.eq(1);
         } else {
           expect(1).to.eq(2);
@@ -31,7 +31,7 @@ describe('Should, run expected tests', () => {
   });
 
   it('will, be included in failed tests', () => {
-    if (Cypress.env('shouldPass')) {
+    if (Cypress.expose('shouldPass')) {
       expect(10).to.eq(10);
     } else {
       expect(10).to.eq(2);
@@ -52,7 +52,7 @@ describe('Should, run expected tests', () => {
 });
 
 it('non-suite test, 1', () => {
-  if (Cypress.env('shouldPass')) {
+  if (Cypress.expose('shouldPass')) {
     expect(true).to.eq(true);
   } else {
     expect(true).to.eq(false);
