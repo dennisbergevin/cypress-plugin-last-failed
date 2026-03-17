@@ -54,8 +54,8 @@ const generateReports = (tests, spec, config) => {
     const testCopy = [...test]; // Create a copy of the array to avoid mutation
     let testTitle = testCopy.pop(); // Extract the test title
     if (testTitle) {
-      // If --env burn=X is set from cy-grep, remove the ": burning X of X"
-      testTitle = config.env.burn
+      // If --expose burn=X is set from cy-grep, remove the ": burning X of X"
+      testTitle = config.expose.burn
         ? testTitle.replace(/: burning .* of .*/, '')
         : testTitle;
       const report = {
@@ -66,8 +66,8 @@ const generateReports = (tests, spec, config) => {
       reports.push(report);
     }
   }
-  // If --env burn=X is set from cy-grep, remove the duplicate test objects
-  if (config.env.burn) {
+  // If --expose burn=X is set from cy-grep, remove the duplicate test objects
+  if (config.expose.burn) {
     const seen = new Set();
     const filteredReports = reports.filter((el) => {
       const duplicate = seen.has(

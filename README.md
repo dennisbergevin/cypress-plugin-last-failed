@@ -62,7 +62,7 @@ const { collectFailingTests } = require('cypress-plugin-last-failed');
 
 module.exports = defineConfig({
   screenshotOnRunFailure: false,
-  env: {
+  expose: {
     grepOmitFiltered: true,
     grepFilterSpecs: true,
   },
@@ -154,7 +154,7 @@ Toggling the filter will run any previously failed tests on the particular spec 
 
 ```json
 {
-  "env": {
+  "expose": {
     "grepOmitFiltered": true,
     "grepFilterSpecs": true
   }
@@ -184,7 +184,7 @@ Now running or opening Cypress in interactive mode, **you will not see any tests
 To run just those tests with the required tag `@skip` in interactive mode:
 
 ```bash
-npx cypress open --env grepTags=@skip
+npx cypress open --expose grepTags=@skip
 ```
 
 ---
