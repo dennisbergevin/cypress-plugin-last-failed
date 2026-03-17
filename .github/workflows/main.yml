@@ -22,9 +22,11 @@ jobs:
       - name: Run failed tests from default directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           # environment variable used for CI/CD tests in this repo
-          command: npx cypress-plugin-last-failed run --env shouldPass=true
+          command: npx cypress-plugin-last-failed run --expose shouldPass=true
           working-directory: ${{ github.workspace }}
   exit-code-check:
     runs-on: ubuntu-22.04
@@ -42,6 +44,8 @@ jobs:
         id: run-failed
         if: always()
         continue-on-error: true
+        env:
+          DEBUG: cy-grep
         run: |
           set +e
           npx cypress-plugin-last-failed run
@@ -60,7 +64,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           # using cy-grep plugin burn test feature
-          command: npx cypress run --env burn=10
+          command: npx cypress run --expose burn=10
           working-directory: ${{ github.workspace }}
         continue-on-error: true
       - name: Output the file contents 📝
@@ -70,9 +74,11 @@ jobs:
       - name: Run failed tests from default directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           # environment variable used for CI/CD tests in this repo
-          command: npx cypress-plugin-last-failed run --env shouldPass=true
+          command: npx cypress-plugin-last-failed run --expose shouldPass=true
           working-directory: ${{ github.workspace }}
   custom-dir-test-results:
     runs-on: ubuntu-22.04
@@ -92,6 +98,8 @@ jobs:
       - name: Run failed tests from custom directory 🧪
         if: always()
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: cy-grep
         with:
           command: npm run custom-dir-last-failed
           working-directory: ${{ github.workspace }}

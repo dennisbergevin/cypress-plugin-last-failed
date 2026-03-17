@@ -6,9 +6,9 @@
 A companion Cypress plugin for <code>cy-grep</code> that re-runs the last failed test(s).
 </p>
 
-![Cypress-last-failed-toggle](./assets/cypress-demo.gif)
+![cypress-demo](https://github.com/user-attachments/assets/28be0283-69ad-4288-8e48-6fd119e0499d)
 
-![Cypress run example image](./assets/cypress-last-failed.png)
+<img width="2048" height="2346" alt="cypress-last-failed" src="https://github.com/user-attachments/assets/3c799547-06da-410e-82c9-47b52a1ec83c" />
 
 ## Features
 
@@ -62,7 +62,7 @@ const { collectFailingTests } = require('cypress-plugin-last-failed');
 
 module.exports = defineConfig({
   screenshotOnRunFailure: false,
-  env: {
+  expose: {
     grepOmitFiltered: true,
     grepFilterSpecs: true,
   },
@@ -146,7 +146,7 @@ For convenience, you may desire to house the `npx` command within an npm script 
 
 Toggling the filter will run any previously failed tests on the particular spec file.
 
-![Failed test toggle](./assets/failed-test-toggle.png)
+<img width="810" height="218" alt="failed-test-toggle" src="https://github.com/user-attachments/assets/f6294d1c-7a96-4fb3-a89c-29aba2cd1f46" />
 
 ### Recommended open mode env variables
 
@@ -154,7 +154,7 @@ Toggling the filter will run any previously failed tests on the particular spec 
 
 ```json
 {
-  "env": {
+  "expose": {
     "grepOmitFiltered": true,
     "grepFilterSpecs": true
   }
@@ -184,7 +184,7 @@ Now running or opening Cypress in interactive mode, **you will not see any tests
 To run just those tests with the required tag `@skip` in interactive mode:
 
 ```bash
-npx cypress open --env grepTags=@skip
+npx cypress open --expose grepTags=@skip
 ```
 
 ---
