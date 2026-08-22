@@ -10,9 +10,9 @@ const grepFailed = () => {
   // @ts-ignore
   const failedTestTitles = [];
 
-  const failedTests = window.top?.document.querySelectorAll(
-    '.test.runnable.runnable-failed'
-  );
+  const failedTests = window.top?.document
+    .querySelector('iframe')
+    ?.contentDocument?.querySelectorAll('.test.runnable.runnable-failed');
 
   [...failedTests].forEach((test) => {
     failedTestTitles.push(test.innerText.split('\n')[0]);
@@ -23,8 +23,22 @@ const grepFailed = () => {
   } else {
     console.log('running only the failed tests');
     const grepTitles = failedTestTitles.join('; ');
+    const stopBtn = window.top?.document
+      .querySelector('iframe')
+      ?.contentDocument?.querySelector('.statsAndControls .stop');
+    // TODO: The cy-grep package has not been updated to handle the new Cypress runner UI iframe
+    // Remove this restartBtn handling once that package has been updated
+    const restartBtn = window.top?.document
+      .querySelector('iframe')
+      ?.contentDocument?.querySelector('.statsAndControls .restart');
+
     // @ts-ignore
     Cypress.grep(grepTitles);
+    if (stopBtn) {
+      stopBtn.click();
+    } else {
+      restartBtn.click();
+    }
   }
 };
 
@@ -33,8 +47,12 @@ const grepFailed = () => {
  */
 
 const failedTestToggle = () => {
-  const hasStyles = top?.document.querySelector('#runFailedStyle');
-  const hasToggleButton = top?.document.querySelector('#runFailedToggle');
+  const hasStyles = top?.document
+    .querySelector('iframe')
+    ?.contentDocument?.querySelector('#runFailedStyle');
+  const hasToggleButton = top?.document
+    .querySelector('iframe')
+    ?.contentDocument?.querySelector('#runFailedToggle');
   const defaultStyles = `
         .reporter header {
           overflow: visible;
@@ -111,9 +129,13 @@ const failedTestToggle = () => {
     let reporterEl;
     const reporterStyleEl = document.createElement('style');
     if (Cypress.version >= '15.0.0') {
-      reporterEl = window.top?.document.querySelector('.runnable-header');
+      reporterEl = window.top?.document
+        .querySelector('iframe')
+        ?.contentDocument?.querySelector('.runnable-header');
     } else {
-      reporterEl = window.top?.document.querySelector('#unified-reporter');
+      reporterEl = window.top?.document
+        .querySelector('iframe')
+        ?.contentDocument?.querySelector('#unified-reporter');
     }
     reporterStyleEl.setAttribute('id', 'runFailedStyle');
     reporterStyleEl.innerHTML = defaultStyles;
@@ -122,13 +144,9 @@ const failedTestToggle = () => {
 
   if (!hasToggleButton) {
     let header;
-    if (Cypress.version >= '15.0.0') {
-      // TODO: Cypress v15 GUI provides option for Cypress Studio which pushes the grep toggle button around the UI
-      // For simplicity, moving the toggle button to the spec container above the stop button
-      header = window.top?.document.querySelector('.runnable-header');
-    } else {
-      header = window.top?.document.querySelector('#unified-reporter header');
-    }
+    header = window.top?.document
+      .querySelector('iframe')
+      ?.contentDocument?.querySelector('.runnable-header');
     const headerToggleDiv = document.createElement('div');
     const headerToggleSpan = document.createElement('span');
     const headerToggleTooltip = document.createElement('span');
@@ -158,19 +176,31 @@ const failedTestToggle = () => {
     headerToggleButton?.appendChild(headerToggleLabel);
   }
 
-  const runFailedElement = top.document.querySelector('#runFailedToggle');
-  const runFailedLabelElement = top.document.querySelector(
-    '[for=runFailedToggle]'
-  );
-  const runFailedTooltipElement =
-    top.document.querySelector('#runFailedTooltip');
+  const runFailedElement = top.document
+    .querySelector('iframe')
+    ?.contentDocument?.querySelector('#runFailedToggle');
+  const runFailedLabelElement = top.document
+    .querySelector('iframe')
+    ?.contentDocument?.querySelector('[for=runFailedToggle]');
+  const runFailedTooltipElement = top.document
+    .querySelector('iframe')
+    ?.contentDocument?.querySelector('#runFailedTooltip');
 
   runFailedElement?.addEventListener('change', (e) => {
-    const stopBtn = window.top.document.querySelector('.reporter .stop');
+    const stopBtn = window.top.document
+      .querySelector('iframe')
+      ?.contentDocument?.querySelector('.reporter .stop');
+    // TODO: The cy-grep package has not been updated to handle the new Cypress runner UI iframe
+    // Remove this restartBtn handling once that package has been updated
+    const restartBtn = window.top?.document
+      .querySelector('iframe')
+      ?.contentDocument?.querySelector('.statsAndControls .restart');
 
     if (e.target.checked) {
       if (stopBtn) {
         stopBtn.click();
+      } else {
+        restartBtn.click();
       }
       // when checked, grep only failed tests in spec
       grepFailed();
@@ -183,6 +213,11 @@ const failedTestToggle = () => {
       }
       // when unchecked, ungrep and show all tests in spec
       Cypress.grep();
+      // TODO: The cy-grep package has not been updated to handle the new Cypress runner UI iframe
+      // Remove this restartBtn handling once that package has been updated
+      if (restartBtn) {
+        restartBtn.click();
+      }
       runFailedLabelElement.innerHTML = turnOffRunFailedIcon;
       runFailedTooltipElement.innerHTML = turnOffRunFailedDescription;
     }
@@ -197,8 +232,9 @@ const failedTestToggle = () => {
       const sidebarRunsLinkPage = window.top?.document.querySelector(
         '[data-cy="sidebar-link-runs-page"]'
       );
-      const runFailedToggleElement =
-        window.top?.document.querySelector('#runFailedToggle');
+      const runFailedToggleElement = window.top?.document
+        .querySelector('iframe')
+        ?.contentDocument?.querySelector('#runFailedToggle');
 
       if (
         window.top?.document.URL !=
