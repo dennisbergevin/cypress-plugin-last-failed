@@ -23,22 +23,9 @@ const grepFailed = () => {
   } else {
     console.log('running only the failed tests');
     const grepTitles = failedTestTitles.join('; ');
-    const stopBtn = window.top?.document
-      .querySelector('iframe')
-      ?.contentDocument?.querySelector('.statsAndControls .stop');
-    // TODO: The cy-grep package has not been updated to handle the new Cypress runner UI iframe
-    // Remove this restartBtn handling once that package has been updated
-    const restartBtn = window.top?.document
-      .querySelector('iframe')
-      ?.contentDocument?.querySelector('.statsAndControls .restart');
 
     // @ts-ignore
     Cypress.grep(grepTitles);
-    if (stopBtn) {
-      stopBtn.click();
-    } else {
-      restartBtn.click();
-    }
   }
 };
 
@@ -128,15 +115,9 @@ const failedTestToggle = () => {
   if (!hasStyles) {
     let reporterEl;
     const reporterStyleEl = document.createElement('style');
-    if (Cypress.version >= '15.0.0') {
-      reporterEl = window.top?.document
-        .querySelector('iframe')
-        ?.contentDocument?.querySelector('.runnable-header');
-    } else {
-      reporterEl = window.top?.document
-        .querySelector('iframe')
-        ?.contentDocument?.querySelector('#unified-reporter');
-    }
+    reporterEl = window.top?.document
+      .querySelector('iframe')
+      ?.contentDocument?.querySelector('.runnable-header');
     reporterStyleEl.setAttribute('id', 'runFailedStyle');
     reporterStyleEl.innerHTML = defaultStyles;
     reporterEl?.appendChild(reporterStyleEl);
@@ -190,17 +171,9 @@ const failedTestToggle = () => {
     const stopBtn = window.top.document
       .querySelector('iframe')
       ?.contentDocument?.querySelector('.reporter .stop');
-    // TODO: The cy-grep package has not been updated to handle the new Cypress runner UI iframe
-    // Remove this restartBtn handling once that package has been updated
-    const restartBtn = window.top?.document
-      .querySelector('iframe')
-      ?.contentDocument?.querySelector('.statsAndControls .restart');
-
     if (e.target.checked) {
       if (stopBtn) {
         stopBtn.click();
-      } else {
-        restartBtn.click();
       }
       // when checked, grep only failed tests in spec
       grepFailed();
@@ -213,11 +186,6 @@ const failedTestToggle = () => {
       }
       // when unchecked, ungrep and show all tests in spec
       Cypress.grep();
-      // TODO: The cy-grep package has not been updated to handle the new Cypress runner UI iframe
-      // Remove this restartBtn handling once that package has been updated
-      if (restartBtn) {
-        restartBtn.click();
-      }
       runFailedLabelElement.innerHTML = turnOffRunFailedIcon;
       runFailedTooltipElement.innerHTML = turnOffRunFailedDescription;
     }
